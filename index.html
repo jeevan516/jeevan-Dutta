@@ -797,7 +797,54 @@
       animation: pulse 2s ease-in-out infinite;
     }
 
+    /* ── ML Hero Canvas ── */
+    .ml-hero-wrap {
+      position: absolute; right: 3%; top: 50%;
+      transform: translateY(-50%);
+      width: 400px; height: 440px;
+      z-index: 1; pointer-events: none;
+    }
+    #ml-hero-canvas { width: 100%; height: 100%; }
+
+    /* ── Metrics badge on ML canvas ── */
+    .ml-metrics {
+      position: absolute; bottom: 10px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 1rem;
+      background: rgba(10,10,20,0.6); backdrop-filter: blur(8px);
+      border: 1px solid rgba(0,212,170,0.18);
+      border-radius: 8px; padding: .45rem 1rem;
+      font-size: .72rem; font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+    .ml-metric { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .ml-metric-label { color: var(--muted); font-size: .65rem; text-transform: uppercase; letter-spacing: .08em; }
+    .ml-metric-val { font-weight: 700; }
+    .ml-metric-val.acc { color: #00d4aa; }
+    .ml-metric-val.loss { color: #ff8c32; }
+    .ml-metric-val.epoch { color: #0099ff; }
+
+    /* ── Floating ML code fragments ── */
+    .floating-code {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .code-frag {
+      position: absolute;
+      font-family: 'Courier New', 'Fira Code', monospace;
+      color: #00d4aa; white-space: nowrap;
+      animation: driftUp linear infinite;
+      user-select: none;
+    }
+    @keyframes driftUp {
+      0%   { transform: translateY(110vh); opacity: 0; }
+      5%   { opacity: 1; }
+      95%  { opacity: 1; }
+      100% { transform: translateY(-15vh); opacity: 0; }
+    }
+
     /* ── Responsive ── */
+    @media (max-width: 1100px) { .ml-hero-wrap { display: none; } }
     @media (max-width: 768px) {
       .about-grid, .edu-cert-grid { grid-template-columns: 1fr; }
       nav { padding: 1rem; }
@@ -816,6 +863,9 @@
 
 <!-- ── Spotlight ── -->
 <div class="spotlight" id="spotlight"></div>
+
+<!-- ── Floating ML Code Fragments ── -->
+<div class="floating-code" id="floatingCode"></div>
 
 <!-- ── Matrix Rain Canvas ── -->
 <canvas id="rain-canvas"></canvas>
@@ -855,58 +905,24 @@
 <section id="hero">
   <div class="hero-bg"></div>
 
-  <!-- Circuit board decoration -->
-  <svg class="circuit-decoration" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Grid lines -->
-    <line x1="160" y1="0"   x2="160" y2="320" stroke="#00d4aa" stroke-width="0.5"/>
-    <line x1="0"   y1="160" x2="320" y2="160" stroke="#00d4aa" stroke-width="0.5"/>
-    <line x1="80"  y1="0"   x2="80"  y2="320" stroke="#0099ff" stroke-width="0.3"/>
-    <line x1="240" y1="0"   x2="240" y2="320" stroke="#0099ff" stroke-width="0.3"/>
-    <line x1="0"   y1="80"  x2="320" y2="80"  stroke="#0099ff" stroke-width="0.3"/>
-    <line x1="0"   y1="240" x2="320" y2="240" stroke="#0099ff" stroke-width="0.3"/>
-    <!-- Circuit paths -->
-    <path d="M40 160 H120 V80 H200 V160 H280" stroke="#00d4aa" stroke-width="1.5" stroke-linecap="round"/>
-    <path d="M160 40 V120 H240 V200 H160 V280" stroke="#0099ff" stroke-width="1.5" stroke-linecap="round"/>
-    <path d="M40 240 H80 V200 H160" stroke="#00d4aa" stroke-width="1"/>
-    <path d="M280 80 H240 V120 H160" stroke="#0099ff" stroke-width="1"/>
-    <!-- Nodes / solder points -->
-    <circle cx="160" cy="160" r="6" fill="#00d4aa" opacity="0.9"/>
-    <circle cx="80"  cy="80"  r="4" fill="#0099ff" opacity="0.8"/>
-    <circle cx="240" cy="80"  r="4" fill="#0099ff" opacity="0.8"/>
-    <circle cx="80"  cy="240" r="4" fill="#00d4aa" opacity="0.7"/>
-    <circle cx="240" cy="240" r="4" fill="#00d4aa" opacity="0.7"/>
-    <circle cx="120" cy="80"  r="3" fill="#00d4aa" opacity="0.6"/>
-    <circle cx="200" cy="80"  r="3" fill="#00d4aa" opacity="0.6"/>
-    <circle cx="120" cy="200" r="3" fill="#0099ff" opacity="0.6"/>
-    <circle cx="200" cy="200" r="3" fill="#0099ff" opacity="0.6"/>
-    <!-- IC chip outline -->
-    <rect x="110" y="110" width="100" height="100" rx="8" stroke="#00d4aa" stroke-width="1.5" fill="rgba(0,212,170,0.04)"/>
-    <rect x="125" y="125" width="70"  height="70"  rx="4" stroke="#0099ff" stroke-width="0.8" fill="none"/>
-    <!-- IC pins -->
-    <line x1="110" y1="135" x2="80"  y2="135" stroke="#00d4aa" stroke-width="1"/>
-    <line x1="110" y1="155" x2="80"  y2="155" stroke="#00d4aa" stroke-width="1"/>
-    <line x1="110" y1="175" x2="80"  y2="175" stroke="#00d4aa" stroke-width="1"/>
-    <line x1="210" y1="135" x2="240" y2="135" stroke="#0099ff" stroke-width="1"/>
-    <line x1="210" y1="155" x2="240" y2="155" stroke="#0099ff" stroke-width="1"/>
-    <line x1="210" y1="175" x2="240" y2="175" stroke="#0099ff" stroke-width="1"/>
-    <line x1="135" y1="110" x2="135" y2="80"  stroke="#00d4aa" stroke-width="1"/>
-    <line x1="155" y1="110" x2="155" y2="80"  stroke="#00d4aa" stroke-width="1"/>
-    <line x1="175" y1="110" x2="175" y2="80"  stroke="#0099ff" stroke-width="1"/>
-    <line x1="135" y1="210" x2="135" y2="240" stroke="#00d4aa" stroke-width="1"/>
-    <line x1="155" y1="210" x2="155" y2="240" stroke="#00d4aa" stroke-width="1"/>
-    <line x1="175" y1="210" x2="175" y2="240" stroke="#0099ff" stroke-width="1"/>
-    <!-- Data packet traveling -->
-    <path class="data-packet" d="M40 160 H120 V80 H200 V160 H280" stroke="#00d4aa" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation-delay:0s"/>
-    <path class="data-packet" d="M160 40 V120 H240 V200 H160 V280" stroke="#0099ff" stroke-width="2.5" stroke-linecap="round" fill="none" style="animation-delay:2s"/>
-    <!-- Outer frame -->
-    <rect x="2" y="2" width="316" height="316" rx="16" stroke="url(#circuitGrad)" stroke-width="1" fill="none"/>
-    <defs>
-      <linearGradient id="circuitGrad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%"   stop-color="#00d4aa" stop-opacity="0.5"/>
-        <stop offset="100%" stop-color="#0099ff" stop-opacity="0.5"/>
-      </linearGradient>
-    </defs>
-  </svg>
+  <!-- ML Neural Network Visualization -->
+  <div class="ml-hero-wrap">
+    <canvas id="ml-hero-canvas" width="400" height="400"></canvas>
+    <div class="ml-metrics">
+      <div class="ml-metric">
+        <span class="ml-metric-label">Accuracy</span>
+        <span class="ml-metric-val acc" id="mlAcc">0.00%</span>
+      </div>
+      <div class="ml-metric">
+        <span class="ml-metric-label">Loss</span>
+        <span class="ml-metric-val loss" id="mlLoss">1.000</span>
+      </div>
+      <div class="ml-metric">
+        <span class="ml-metric-label">Epoch</span>
+        <span class="ml-metric-val epoch" id="mlEpoch">0/100</span>
+      </div>
+    </div>
+  </div>
 
   <div class="hero-content">
     <div class="hero-badge">Open to new opportunities</div>
@@ -1638,6 +1654,242 @@
     });
     btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
   });
+
+  /* ════════════════════════════════════════════
+     ML HERO — Neural Network Visualization
+  ════════════════════════════════════════════ */
+  (function() {
+    const mlC = document.getElementById('ml-hero-canvas');
+    if (!mlC) return;
+    const mc  = mlC.getContext('2d');
+    const MW  = 400, MH = 400;
+
+    // Architecture: Input(4) → Dense/ReLU(6) → Dense/ReLU(5) → Softmax(3)
+    const LAYERS = [
+      { n: 4, label: 'Input',     sublabel: 'x₁ x₂ x₃ x₄', col: '0,212,170'  },
+      { n: 6, label: 'Dense',     sublabel: 'ReLU',          col: '0,153,255'  },
+      { n: 5, label: 'Dense',     sublabel: 'ReLU',          col: '138,43,226' },
+      { n: 3, label: 'Softmax',   sublabel: 'ŷ₁ ŷ₂ ŷ₃',    col: '255,140,50' },
+    ];
+
+    // Compute node positions
+    const PAD_X = 52, PAD_Y = 52;
+    const LW = (MW - PAD_X * 2) / (LAYERS.length - 1);
+    LAYERS.forEach((layer, li) => {
+      layer.x = PAD_X + li * LW;
+      const gap = (MH - PAD_Y * 2) / (layer.n + 1);
+      layer.pos = Array.from({ length: layer.n }, (_, ni) => ({
+        x: layer.x, y: PAD_Y + (ni + 1) * gap
+      }));
+    });
+
+    // Precompute connection alphas (random weight-like values)
+    const CONNS = [];
+    LAYERS.forEach((layer, li) => {
+      if (li === LAYERS.length - 1) return;
+      layer.pos.forEach(src => {
+        LAYERS[li + 1].pos.forEach(dst => {
+          CONNS.push({ sx: src.x, sy: src.y, dx: dst.x, dy: dst.y,
+                       a: 0.04 + Math.random() * 0.1,
+                       col1: layer.col, col2: LAYERS[li + 1].col });
+        });
+      });
+    });
+
+    // Forward-pass pulses
+    let mlPulses = [];
+    function spawnMLPulse() {
+      const li = Math.floor(Math.random() * (LAYERS.length - 1));
+      const src = LAYERS[li].pos[Math.floor(Math.random() * LAYERS[li].pos.length)];
+      const dst = LAYERS[li+1].pos[Math.floor(Math.random() * LAYERS[li+1].pos.length)];
+      mlPulses.push({ sx: src.x, sy: src.y, dx: dst.x, dy: dst.y,
+                      t: 0, col: LAYERS[li].col, col2: LAYERS[li+1].col });
+    }
+    setInterval(spawnMLPulse, 120);
+
+    // Fake training metrics
+    let epoch = 0, acc = 0, loss = 1.0;
+    const accEl   = document.getElementById('mlAcc');
+    const lossEl  = document.getElementById('mlLoss');
+    const epochEl = document.getElementById('mlEpoch');
+    setInterval(() => {
+      if (epoch >= 100) { epoch = 0; acc = 0; loss = 1.0; }
+      epoch++;
+      acc  = Math.min(0.9842, acc  + (0.9842 - acc)  * 0.08 + Math.random() * 0.005);
+      loss = Math.max(0.0421, loss - (loss - 0.0421) * 0.07 - Math.random() * 0.003);
+      if (accEl)   accEl.textContent   = (acc * 100).toFixed(2) + '%';
+      if (lossEl)  lossEl.textContent  = loss.toFixed(4);
+      if (epochEl) epochEl.textContent = epoch + '/100';
+    }, 300);
+
+    function drawML() {
+      mc.clearRect(0, 0, MW, MH);
+      const t = Date.now() / 1000;
+
+      // ── Connections ──
+      CONNS.forEach(c => {
+        mc.beginPath();
+        mc.moveTo(c.sx, c.sy); mc.lineTo(c.dx, c.dy);
+        const g = mc.createLinearGradient(c.sx, c.sy, c.dx, c.dy);
+        g.addColorStop(0, `rgba(${c.col1},${c.a})`);
+        g.addColorStop(1, `rgba(${c.col2},${c.a})`);
+        mc.strokeStyle = g; mc.lineWidth = 0.7;
+        mc.stroke();
+      });
+
+      // ── Pulses ──
+      mlPulses = mlPulses.filter(p => p.t <= 1);
+      mlPulses.forEach(p => {
+        p.t += 0.022;
+        const px = p.sx + (p.dx - p.sx) * p.t;
+        const py = p.sy + (p.dy - p.sy) * p.t;
+        const a  = p.t < 0.5 ? p.t * 2 : (1 - p.t) * 2;
+        // Trail
+        mc.beginPath(); mc.arc(px, py, 7, 0, Math.PI * 2);
+        mc.fillStyle = `rgba(${p.col},${a * 0.12})`; mc.fill();
+        // Core
+        mc.beginPath(); mc.arc(px, py, 3, 0, Math.PI * 2);
+        mc.fillStyle = `rgba(${p.col},${a * 0.95})`;
+        mc.shadowBlur = 12; mc.shadowColor = `rgb(${p.col})`;
+        mc.fill(); mc.shadowBlur = 0;
+      });
+
+      // ── Nodes ──
+      LAYERS.forEach((layer, li) => {
+        layer.pos.forEach((pos, ni) => {
+          const pulse = 0.45 + Math.sin(t * 1.6 + li * 1.1 + ni * 0.9) * 0.55;
+
+          // Outer glow
+          mc.beginPath(); mc.arc(pos.x, pos.y, 13, 0, Math.PI * 2);
+          mc.fillStyle = `rgba(${layer.col},${pulse * 0.1})`; mc.fill();
+          // Mid ring
+          mc.beginPath(); mc.arc(pos.x, pos.y, 8, 0, Math.PI * 2);
+          mc.fillStyle = `rgba(${layer.col},${pulse * 0.22})`; mc.fill();
+          // Core
+          mc.beginPath(); mc.arc(pos.x, pos.y, 5, 0, Math.PI * 2);
+          mc.fillStyle = `rgba(${layer.col},${0.7 + pulse * 0.3})`;
+          mc.shadowBlur = 14; mc.shadowColor = `rgb(${layer.col})`;
+          mc.fill(); mc.shadowBlur = 0;
+          // Activation bar (tiny)
+          const barW = 14, barH = 3;
+          mc.fillStyle = `rgba(${layer.col},0.18)`;
+          mc.fillRect(pos.x - barW/2, pos.y + 9, barW, barH);
+          mc.fillStyle = `rgba(${layer.col},0.7)`;
+          mc.fillRect(pos.x - barW/2, pos.y + 9, barW * pulse, barH);
+        });
+
+        // Layer label
+        mc.font = 'bold 11px Inter, sans-serif';
+        mc.textAlign = 'center';
+        mc.fillStyle = `rgba(${layer.col},0.9)`;
+        mc.fillText(layer.label, layer.x, PAD_Y - 24);
+        mc.font = '9px Inter, sans-serif';
+        mc.fillStyle = `rgba(${layer.col},0.5)`;
+        mc.fillText(layer.sublabel, layer.x, PAD_Y - 12);
+      });
+
+      // ── Loss curve (mini) ──
+      const cx0 = 10, cy0 = MH - 15, cw = 90, ch = 38;
+      mc.fillStyle = 'rgba(10,10,20,0.5)';
+      mc.beginPath(); mc.roundRect(cx0, cy0 - ch, cw, ch + 4, 4); mc.fill();
+      mc.font = '8px Inter, sans-serif'; mc.textAlign = 'left';
+      mc.fillStyle = 'rgba(255,140,50,0.6)';
+      mc.fillText('loss curve', cx0 + 4, cy0 - ch + 10);
+      mc.beginPath(); mc.moveTo(cx0 + 4, cy0 - 4);
+      const pts = 20;
+      for (let i = 0; i <= pts; i++) {
+        const lx = cx0 + 4 + (i / pts) * (cw - 8);
+        const lv = Math.exp(-i / pts * 3) * (ch - 14) + 4;
+        const noise = (Math.sin(i * 4.7 + t) * 1.5);
+        if (i === 0) mc.moveTo(lx, cy0 - lv + noise);
+        else mc.lineTo(lx, cy0 - lv + noise);
+      }
+      mc.strokeStyle = 'rgba(255,140,50,0.75)'; mc.lineWidth = 1.2;
+      mc.shadowBlur = 4; mc.shadowColor = '#ff8c32';
+      mc.stroke(); mc.shadowBlur = 0;
+
+      // ── Sigmoid inset (top-right) ──
+      const sx0 = MW - 95, sy0 = 10, sw = 85, sh = 40;
+      mc.fillStyle = 'rgba(10,10,20,0.5)';
+      mc.beginPath(); mc.roundRect(sx0, sy0, sw, sh, 4); mc.fill();
+      mc.font = '8px Inter, sans-serif'; mc.textAlign = 'left';
+      mc.fillStyle = 'rgba(0,212,170,0.6)';
+      mc.fillText('σ(x) = 1/(1+e⁻ˣ)', sx0 + 4, sy0 + 10);
+      mc.beginPath();
+      for (let i = 0; i <= sw - 8; i++) {
+        const xv = (i / (sw - 8)) * 10 - 5;
+        const yv = 1 / (1 + Math.exp(-xv));
+        const px2 = sx0 + 4 + i;
+        const py2 = sy0 + sh - 4 - yv * (sh - 18);
+        if (i === 0) mc.moveTo(px2, py2); else mc.lineTo(px2, py2);
+      }
+      mc.strokeStyle = 'rgba(0,212,170,0.8)'; mc.lineWidth = 1.4;
+      mc.shadowBlur = 5; mc.shadowColor = '#00d4aa';
+      mc.stroke(); mc.shadowBlur = 0;
+
+      requestAnimationFrame(drawML);
+    }
+    drawML();
+  })();
+
+  /* ════════════════════════════════════════════
+     FLOATING ML CODE FRAGMENTS
+  ════════════════════════════════════════════ */
+  (function() {
+    const container = document.getElementById('floatingCode');
+    if (!container) return;
+
+    const SNIPPETS = [
+      'import numpy as np',
+      'import torch.nn as nn',
+      'from sklearn.ensemble import RandomForestClassifier',
+      'model = Sequential()',
+      'model.add(Dense(128, activation="relu"))',
+      'model.fit(X_train, y_train, epochs=100)',
+      'loss = criterion(outputs, labels)',
+      'optimizer.zero_grad()',
+      'loss.backward()',
+      'optimizer.step()',
+      'y_pred = model.predict(X_test)',
+      'accuracy_score(y_test, y_pred)',
+      'from transformers import AutoModel',
+      'embedding = bert_model(input_ids)',
+      'attention = F.softmax(scores / dk, dim=-1)',
+      'return F.relu(self.bn(self.conv(x)))',
+      'X_train, X_test = train_test_split(X, 0.2)',
+      'anomaly = isolation_forest.fit_predict(data)',
+      'pipeline = RAGPipeline(retriever, llm)',
+      'client.messages.create(model="claude-opus-4-6")',
+      'gradient = torch.autograd.grad(loss, params)',
+      'torch.nn.CrossEntropyLoss(reduction="mean")',
+      'for epoch in range(num_epochs):',
+      '    running_loss += loss.item()',
+      'scheduler.step(val_loss)',
+      'torch.save(model.state_dict(), "model.pt")',
+      'confusion_matrix(y_true, y_pred)',
+      'precision, recall, f1, _ = precision_recall_fscore_support',
+      'df = pd.DataFrame(features, columns=feature_names)',
+      'sns.heatmap(corr_matrix, annot=True)',
+    ];
+
+    SNIPPETS.forEach((snippet) => {
+      const el = document.createElement('div');
+      el.className = 'code-frag';
+      el.textContent = snippet;
+      const isBlue = Math.random() > 0.6;
+      const isViolet = !isBlue && Math.random() > 0.5;
+      el.style.cssText = `
+        left: ${2 + Math.random() * 94}vw;
+        bottom: -5vh;
+        opacity: ${0.028 + Math.random() * 0.04};
+        font-size: ${0.62 + Math.random() * 0.25}rem;
+        color: ${isBlue ? '#0099ff' : isViolet ? '#a78bfa' : '#00d4aa'};
+        animation-delay: ${Math.random() * 40}s;
+        animation-duration: ${30 + Math.random() * 35}s;
+      `;
+      container.appendChild(el);
+    });
+  })();
 
   /* ── Nav active link on scroll ── */
   const allNavLinks = document.querySelectorAll('.nav-links a');
