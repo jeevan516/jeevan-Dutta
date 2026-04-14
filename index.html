@@ -628,8 +628,174 @@
     .stat-card:hover::after { width: 100%; }
 
     /* ── Fade-in animation ── */
-    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.65s cubic-bezier(.22,1,.36,1), transform 0.65s cubic-bezier(.22,1,.36,1); }
     .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ══════════════════════════════════════════
+       MODERN ENHANCEMENTS
+    ══════════════════════════════════════════ */
+
+    /* ── Custom Cursor ── */
+    body { cursor: none; }
+    a, button, .btn, [role="button"],
+    .project-card, .contact-card, .skill-category, .skill-pill { cursor: none; }
+
+    .cursor-dot {
+      position: fixed; width: 7px; height: 7px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 10001;
+      left: 0; top: 0;
+      box-shadow: 0 0 12px var(--accent), 0 0 30px rgba(0,212,170,0.55);
+      will-change: transform;
+    }
+    .cursor-ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1.5px solid rgba(0,212,170,0.5); border-radius: 50%;
+      pointer-events: none; z-index: 10000;
+      left: 0; top: 0;
+      will-change: transform;
+      transition: width .22s, height .22s, border-color .22s, background .22s, border-width .22s;
+    }
+    .cursor-ring.hovered {
+      width: 54px; height: 54px;
+      border-color: var(--accent); border-width: 2px;
+      background: rgba(0,212,170,0.07);
+    }
+    .cursor-ring.clicking { transform: translate(-50%,-50%) scale(0.88) !important; }
+
+    /* ── Spotlight ── */
+    .spotlight {
+      position: fixed; width: 600px; height: 600px;
+      border-radius: 50%; pointer-events: none; z-index: 1;
+      background: radial-gradient(circle, rgba(0,212,170,0.035) 0%, transparent 65%);
+      transform: translate(-50%,-50%);
+      transition: left .12s ease-out, top .12s ease-out;
+    }
+
+    /* ── Shimmer on gradient text ── */
+    .gradient-text {
+      background: linear-gradient(90deg,
+        var(--accent) 0%, var(--accent2) 30%, #a78bfa 60%, var(--accent) 100%);
+      background-size: 250% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: shimmer 5s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: 250% center; } }
+
+    /* ── Typewriter ── */
+    .typewriter-wrap { display: inline-flex; align-items: center; gap: 3px; }
+    .tw-cursor {
+      display: inline-block; width: 2px; height: 1em;
+      background: var(--accent); border-radius: 2px;
+      animation: twBlink 1s step-end infinite; vertical-align: middle;
+    }
+    @keyframes twBlink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ── Section divider glow line ── */
+    .section-divider {
+      height: 1px; border: none; margin: 0;
+      background: linear-gradient(90deg,
+        transparent 0%, var(--accent) 30%, var(--accent2) 50%, #a78bfa 70%, transparent 100%);
+      opacity: 0.3;
+    }
+
+    /* ── Nav: pill active indicator ── */
+    .nav-links a {
+      position: relative; padding-bottom: 2px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -2px; left: 50%; right: 50%;
+      height: 1.5px; background: var(--accent);
+      transition: left .25s, right .25s;
+      border-radius: 2px;
+    }
+    .nav-links a:hover::after, .nav-links a.active::after { left: 0; right: 0; }
+
+    /* ── Magnetic button glow ── */
+    .btn-primary {
+      position: relative; overflow: hidden;
+    }
+    .btn-primary::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+      opacity: 0; transition: opacity .25s;
+    }
+    .btn-primary:hover::after { opacity: 1; }
+
+    /* ── 3D tilt — applied via JS, CSS resets cleanly ── */
+    .tilt {
+      transition: transform .12s ease, box-shadow .12s ease;
+      will-change: transform;
+    }
+    .tilt:not(:hover) { transition: transform .4s ease, box-shadow .4s ease; }
+
+    /* ── Glowing border on project card hover ── */
+    .project-card:hover {
+      border-color: transparent;
+      box-shadow:
+        0 0 0 1px rgba(0,212,170,0.45),
+        0 0 20px rgba(0,212,170,0.12),
+        0 24px 50px rgba(0,212,170,0.14),
+        inset 0 1px 0 rgba(255,255,255,0.07);
+    }
+
+    /* ── Skill pill hover ── */
+    .skill-pill {
+      transition: all .2s cubic-bezier(.22,1,.36,1);
+    }
+    .skill-pill:hover {
+      background: rgba(0,212,170,0.14);
+      border-color: rgba(0,212,170,0.45);
+      color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0,212,170,0.22);
+    }
+
+    /* ── Stats counter ── */
+    .stat-number { font-size: 2.6rem; font-weight: 900; letter-spacing: -0.02em; }
+
+    /* ── Cert hover ── */
+    .cert-list li {
+      transition: all .2s ease; border-radius: 8px;
+      padding-left: .4rem; padding-right: .4rem;
+      margin: 0 -.4rem;
+    }
+    .cert-list li:hover {
+      background: rgba(255,255,255,0.04);
+      transform: translateX(5px);
+    }
+
+    /* ── Hero scroll indicator ── */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      color: var(--muted); font-size: .75rem; letter-spacing: .12em;
+      text-transform: uppercase; animation: scrollBounce 2s ease-in-out infinite;
+    }
+    .scroll-hint svg { animation: scrollBounce 2s ease-in-out infinite; }
+    @keyframes scrollBounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(7px); }
+    }
+
+    /* ── Contact card icon glow ── */
+    .contact-card:hover .contact-icon { animation: iconPop .3s ease; }
+    @keyframes iconPop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.3); }
+      100% { transform: scale(1.1); }
+    }
+
+    /* ── Section label dot ── */
+    .section-label::before {
+      content: ''; display: inline-block;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      margin-right: .5rem; vertical-align: middle;
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
@@ -637,10 +803,19 @@
       nav { padding: 1rem; }
       .nav-links { gap: 1rem; }
       .nav-links a { font-size: 0.8rem; }
+      .cursor-dot, .cursor-ring, .spotlight { display: none; }
+      body, a, button { cursor: auto; }
     }
   </style>
 </head>
 <body>
+
+<!-- ── Custom Cursor ── -->
+<div class="cursor-dot"  id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── Spotlight ── -->
+<div class="spotlight" id="spotlight"></div>
 
 <!-- ── Matrix Rain Canvas ── -->
 <canvas id="rain-canvas"></canvas>
@@ -736,7 +911,11 @@
   <div class="hero-content">
     <div class="hero-badge">Open to new opportunities</div>
     <h1>Jeevan <span class="gradient-text">Dutta</span></h1>
-    <p class="hero-title">IT Specialist &nbsp;·&nbsp; MSc Informatics &nbsp;·&nbsp; Web Developer &nbsp;·&nbsp; ITPM</p>
+    <p class="hero-title">
+      <span class="typewriter-wrap">
+        <span id="typewriter"></span><span class="tw-cursor"></span>
+      </span>
+    </p>
     <p class="hero-desc">
       Bridging Data Intelligence &amp; IT Engineering to revolutionize industrial operations.
       I build observability pipelines, AI-powered systems, and resilient infrastructure
@@ -761,8 +940,15 @@
         Get in Touch
       </a>
     </div>
+    <!-- Scroll hint -->
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
   </div>
 </section>
+
+<hr class="section-divider">
 
 <!-- ── About ── -->
 <section id="about">
@@ -792,11 +978,11 @@
 
       <div class="about-stats fade-in">
         <div class="stat-card">
-          <div class="stat-number">5</div>
+          <div class="stat-number" data-target="5" data-suffix="">0</div>
           <div class="stat-label">Companies &amp; Roles</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number">60%</div>
+          <div class="stat-number" data-target="60" data-suffix="%">0%</div>
           <div class="stat-label">Release Cycle Reduction</div>
         </div>
         <div class="stat-card">
@@ -807,6 +993,8 @@
     </div>
   </div>
 </section>
+
+<hr class="section-divider">
 
 <!-- ── Projects ── -->
 <section id="projects">
@@ -953,6 +1141,8 @@
   </div>
 </section>
 
+<hr class="section-divider">
+
 <!-- ── Skills ── -->
 <section id="skills">
   <div class="container">
@@ -1014,6 +1204,8 @@
   </div>
 </section>
 
+<hr class="section-divider">
+
 <!-- ── Education & Certs ── -->
 <section id="education">
   <div class="container">
@@ -1065,6 +1257,8 @@
     </div>
   </div>
 </section>
+
+<hr class="section-divider">
 
 <!-- ── Contact ── -->
 <section id="contact">
@@ -1341,6 +1535,123 @@
     });
   }, { threshold: 0.5 });
   sections.forEach(s => navObserver.observe(s));
+
+  /* ════════════════════════════════════════════
+     MODERN JS ENHANCEMENTS
+  ════════════════════════════════════════════ */
+
+  /* ── Custom Cursor ── */
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let cx = -100, cy = -100, rx = -100, ry = -100;
+
+  document.addEventListener('mousemove', e => { cx = e.clientX; cy = e.clientY; });
+  document.addEventListener('mousedown', () => ring.classList.add('clicking'));
+  document.addEventListener('mouseup',   () => ring.classList.remove('clicking'));
+
+  const hoverEls = document.querySelectorAll('a, button, .btn, .project-card, .contact-card, .skill-category, .skill-pill, .stat-card');
+  hoverEls.forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+  });
+
+  (function animCursor() {
+    rx += (cx - rx) * 0.14;
+    ry += (cy - ry) * 0.14;
+    dot.style.transform  = `translate(${cx - 3.5}px, ${cy - 3.5}px)`;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animCursor);
+  })();
+
+  /* ── Spotlight ── */
+  const spotlight = document.getElementById('spotlight');
+  document.addEventListener('mousemove', e => {
+    spotlight.style.left = e.clientX + 'px';
+    spotlight.style.top  = e.clientY + 'px';
+  });
+
+  /* ── Typewriter ── */
+  const twEl   = document.getElementById('typewriter');
+  const ROLES  = [
+    'IT Specialist · MSc Informatics',
+    'AI Engineer',
+    'Web Developer',
+    'Data Engineer',
+    'IT Support Engineer',
+    'ML Engineer'
+  ];
+  let twRole = 0, twChar = 0, twDel = false;
+  function runTypewriter() {
+    if (!twEl) return;
+    const role = ROLES[twRole];
+    if (!twDel) {
+      twEl.textContent = role.slice(0, ++twChar);
+      if (twChar === role.length) { twDel = true; setTimeout(runTypewriter, 2200); return; }
+      setTimeout(runTypewriter, 68);
+    } else {
+      twEl.textContent = role.slice(0, --twChar);
+      if (twChar === 0) { twDel = false; twRole = (twRole + 1) % ROLES.length; setTimeout(runTypewriter, 350); return; }
+      setTimeout(runTypewriter, 38);
+    }
+  }
+  runTypewriter();
+
+  /* ── Counter animation on stat cards ── */
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll('.stat-number[data-target]').forEach(el => {
+        const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
+        let cur = 0;
+        const step = target / 55;
+        const t = setInterval(() => {
+          cur = Math.min(cur + step, target);
+          el.textContent = Math.round(cur) + suffix;
+          if (cur >= target) clearInterval(t);
+        }, 18);
+      });
+      counterObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.about-stats').forEach(el => counterObserver.observe(el));
+
+  /* ── 3D Tilt on cards ── */
+  document.querySelectorAll('.project-card, .skill-category, .cert-card, .edu-card, .contact-card, .stat-card').forEach(card => {
+    card.classList.add('tilt');
+    card.addEventListener('mousemove', e => {
+      const r   = card.getBoundingClientRect();
+      const dx  = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
+      const dy  = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+      card.style.transform = `perspective(900px) rotateX(${-dy * 7}deg) rotateY(${dx * 7}deg) translateY(-6px) scale(1.01)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+
+  /* ── Magnetic Buttons ── */
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r  = btn.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width  / 2) * 0.28;
+      const dy = (e.clientY - r.top  - r.height / 2) * 0.28;
+      btn.style.transform = `translate(${dx}px, ${dy}px) translateY(-2px)`;
+    });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  });
+
+  /* ── Nav active link on scroll ── */
+  const allNavLinks = document.querySelectorAll('.nav-links a');
+  const allSections = document.querySelectorAll('section[id]');
+  const activeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        allNavLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+  allSections.forEach(s => activeObserver.observe(s));
 </script>
 </body>
 </html>
