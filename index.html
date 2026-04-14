@@ -476,6 +476,71 @@
       }
     }
 
+    /* ── Aurora blobs ── */
+    .aurora {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: -1;
+      animation: auroraFloat 22s ease-in-out infinite;
+    }
+    .aurora-1 {
+      width: 700px; height: 700px;
+      top: -200px; left: -150px;
+      background: radial-gradient(circle, rgba(0,212,170,0.09) 0%, transparent 70%);
+      animation-delay: 0s; animation-duration: 24s;
+    }
+    .aurora-2 {
+      width: 550px; height: 550px;
+      top: 25%; right: -120px;
+      background: radial-gradient(circle, rgba(0,153,255,0.08) 0%, transparent 70%);
+      animation-delay: -8s; animation-duration: 20s;
+    }
+    .aurora-3 {
+      width: 750px; height: 450px;
+      bottom: -150px; left: 15%;
+      background: radial-gradient(circle, rgba(138,43,226,0.07) 0%, transparent 70%);
+      animation-delay: -15s; animation-duration: 28s;
+    }
+    .aurora-4 {
+      width: 450px; height: 450px;
+      top: 55%; left: 35%;
+      background: radial-gradient(circle, rgba(255,140,50,0.06) 0%, transparent 70%);
+      animation-delay: -5s; animation-duration: 18s;
+    }
+    .aurora-5 {
+      width: 400px; height: 400px;
+      top: 40%; left: 55%;
+      background: radial-gradient(circle, rgba(0,212,170,0.05) 0%, transparent 70%);
+      animation-delay: -11s; animation-duration: 32s;
+    }
+    @keyframes auroraFloat {
+      0%,100% { transform: translate(0,0) scale(1); }
+      20%  { transform: translate(70px,-50px) scale(1.08); }
+      40%  { transform: translate(-50px,70px) scale(0.94); }
+      60%  { transform: translate(40px,40px) scale(1.06); }
+      80%  { transform: translate(-30px,-30px) scale(0.97); }
+    }
+
+    /* ── Matrix rain canvas ── */
+    #rain-canvas {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      opacity: 0.22;
+    }
+
+    /* ── Scanlines (very subtle) ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,0,0,0.025) 3px, rgba(0,0,0,0.025) 4px
+      );
+      pointer-events: none;
+      z-index: 998;
+    }
+
     /* ── Hex grid overlay on skills section ── */
     #skills::after {
       content: '';
@@ -577,8 +642,18 @@
 </head>
 <body>
 
+<!-- ── Matrix Rain Canvas ── -->
+<canvas id="rain-canvas"></canvas>
+
 <!-- ── Neural Network Background Canvas ── -->
 <canvas id="neural-canvas"></canvas>
+
+<!-- ── Aurora Blobs ── -->
+<div class="aurora aurora-1"></div>
+<div class="aurora aurora-2"></div>
+<div class="aurora aurora-3"></div>
+<div class="aurora aurora-4"></div>
+<div class="aurora aurora-5"></div>
 
 <!-- ── Floating Shapes ── -->
 <div class="floating-shapes">
@@ -1036,29 +1111,71 @@
 </footer>
 
 <script>
-  /* ── Neural Network Background ── */
+  /* ════════════════════════════════════════════
+     LAYER 1 — Matrix / Data Rain
+  ════════════════════════════════════════════ */
+  const rainCanvas = document.getElementById('rain-canvas');
+  const rctx = rainCanvas.getContext('2d');
+  let RW, RH, rainCols, drops;
+
+  const RAIN_CHARS = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ∑∇λπ∞φΩβΔ⟨⟩{}[]<>⊕⊗01AI ML NLP';
+
+  function initRain() {
+    RW = rainCanvas.width  = window.innerWidth;
+    RH = rainCanvas.height = window.innerHeight;
+    const fontSize = 13;
+    rainCols = Math.floor(RW / fontSize);
+    drops = Array.from({ length: rainCols }, () => Math.random() * -RH / fontSize);
+  }
+  initRain();
+  window.addEventListener('resize', initRain);
+
+  function drawRain() {
+    rctx.fillStyle = 'rgba(10,10,20,0.045)';
+    rctx.fillRect(0, 0, RW, RH);
+    rctx.font = '13px monospace';
+
+    for (let i = 0; i < drops.length; i++) {
+      const ch = RAIN_CHARS[Math.floor(Math.random() * RAIN_CHARS.length)];
+      const x = i * 13;
+      const y = drops[i] * 13;
+
+      // Head char — bright
+      rctx.fillStyle = `rgba(180,255,240,${0.7 + Math.random() * 0.3})`;
+      rctx.fillText(ch, x, y);
+
+      // Body fades to teal/blue randomly
+      const shade = Math.random() > 0.5 ? '0,212,170' : '0,153,255';
+      rctx.fillStyle = `rgba(${shade},${0.15 + Math.random() * 0.2})`;
+      rctx.fillText(RAIN_CHARS[Math.floor(Math.random() * RAIN_CHARS.length)], x, y - 13);
+
+      if (y > RH && Math.random() > 0.975) drops[i] = 0;
+      drops[i] += 0.5;
+    }
+    requestAnimationFrame(drawRain);
+  }
+  drawRain();
+
+  /* ════════════════════════════════════════════
+     LAYER 2 — Neural Network + Pulses + Mouse
+  ════════════════════════════════════════════ */
   const canvas = document.getElementById('neural-canvas');
   const ctx = canvas.getContext('2d');
   let nodes = [], W, H;
+  let mouseX = -9999, mouseY = -9999;
 
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', () => { resize(); initNodes(); });
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+  document.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
 
-  // Node color palettes for variety
   const NODE_COLORS = [
-    { fill: '0,212,170', shadow: '#00d4aa' },   // teal
-    { fill: '0,153,255', shadow: '#0099ff' },   // blue
-    { fill: '138,43,226', shadow: '#8a2be2' },  // purple
-    { fill: '255,140,50', shadow: '#ff8c32' },  // orange (Anthropic accent)
+    { fill: '0,212,170',  shadow: '#00d4aa' },
+    { fill: '0,153,255',  shadow: '#0099ff' },
+    { fill: '138,43,226', shadow: '#8a2be2' },
+    { fill: '255,140,50', shadow: '#ff8c32' },
   ];
 
-  // Signal packets that travel from one node toward another
+  // Signal packets
   let packets = [];
-
   function spawnPacket() {
     if (nodes.length < 2) return;
     const a = nodes[Math.floor(Math.random() * nodes.length)];
@@ -1067,20 +1184,36 @@
     const col = NODE_COLORS[Math.floor(Math.random() * NODE_COLORS.length)];
     packets.push({ ax: a.x, ay: a.y, bx: b.x, by: b.y, t: 0, col });
   }
-  setInterval(spawnPacket, 400);
+  setInterval(spawnPacket, 350);
+
+  // Pulse rings that burst from random nodes
+  let rings = [];
+  function spawnRing() {
+    if (!nodes.length) return;
+    const n = nodes[Math.floor(Math.random() * nodes.length)];
+    rings.push({ x: n.x, y: n.y, r: 0, maxR: 60 + Math.random() * 60, col: n.col, alpha: 0.7 });
+  }
+  setInterval(spawnRing, 800);
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initNodes(); });
 
   function initNodes() {
-    const count = Math.floor((W * H) / 15000);
+    const count = Math.floor((W * H) / 14000);
     nodes = Array.from({ length: count }, () => {
       const col = NODE_COLORS[Math.floor(Math.random() * NODE_COLORS.length)];
       return {
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        r: Math.random() * 2 + 1.5,
+        x: Math.random() * W, y: Math.random() * H,
+        ox: 0, oy: 0,               // mouse offset
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        r: Math.random() * 2.5 + 1.5,
         pulse: Math.random() * Math.PI * 2,
-        col
+        col, depth: 0.4 + Math.random() * 0.6
       };
     });
   }
@@ -1089,20 +1222,32 @@
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
-    // Draw edges
+    // Pulse rings
+    rings = rings.filter(rg => rg.alpha > 0.02);
+    rings.forEach(rg => {
+      rg.r   += 1.4;
+      rg.alpha *= 0.965;
+      ctx.beginPath();
+      ctx.arc(rg.x, rg.y, rg.r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${rg.col.fill},${rg.alpha})`;
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+    });
+
+    // Edges
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const dx = nodes[i].x - nodes[j].x;
         const dy = nodes[i].y - nodes[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 150) {
-          const alpha = (1 - dist / 150) * 0.28;
+        if (dist < 155) {
+          const alpha = (1 - dist / 155) * 0.32;
           const g = ctx.createLinearGradient(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
           g.addColorStop(0, `rgba(${nodes[i].col.fill},${alpha})`);
           g.addColorStop(1, `rgba(${nodes[j].col.fill},${alpha})`);
           ctx.beginPath();
           ctx.strokeStyle = g;
-          ctx.lineWidth = 0.7;
+          ctx.lineWidth = 0.75;
           ctx.moveTo(nodes[i].x, nodes[i].y);
           ctx.lineTo(nodes[j].x, nodes[j].y);
           ctx.stroke();
@@ -1110,47 +1255,65 @@
       }
     }
 
-    // Draw signal packets
+    // Signal packets
     packets = packets.filter(p => p.t <= 1);
     packets.forEach(p => {
-      p.t += 0.012;
+      p.t += 0.013;
       const x = p.ax + (p.bx - p.ax) * p.t;
       const y = p.ay + (p.by - p.ay) * p.t;
       const alpha = p.t < 0.5 ? p.t * 2 : (1 - p.t) * 2;
+      // Glow trail
+      ctx.beginPath();
+      ctx.arc(x, y, 9, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.col.fill},${alpha * 0.12})`;
+      ctx.fill();
+      // Core dot
       ctx.beginPath();
       ctx.arc(x, y, 3.5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${p.col.fill},${alpha * 0.95})`;
-      ctx.shadowBlur = 12;
+      ctx.fillStyle = `rgba(${p.col.fill},${alpha})`;
+      ctx.shadowBlur = 14;
       ctx.shadowColor = p.col.shadow;
       ctx.fill();
       ctx.shadowBlur = 0;
-      // Trail
-      ctx.beginPath();
-      ctx.arc(x, y, 7, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${p.col.fill},${alpha * 0.15})`;
-      ctx.fill();
     });
 
-    // Draw nodes
+    // Nodes
     nodes.forEach(n => {
-      n.pulse += 0.018;
-      const glow = 0.55 + Math.sin(n.pulse) * 0.45;
-      // Outer glow ring
+      // Mouse repulsion
+      const mdx = n.x - mouseX, mdy = n.y - mouseY;
+      const md  = Math.sqrt(mdx * mdx + mdy * mdy);
+      if (md < 120) {
+        const force = (120 - md) / 120 * 1.8;
+        n.ox += (mdx / md) * force;
+        n.oy += (mdy / md) * force;
+      }
+      n.ox *= 0.88; n.oy *= 0.88;
+
+      n.pulse += 0.02;
+      const glow  = 0.5 + Math.sin(n.pulse) * 0.5;
+      const alpha = glow * 0.85 * n.depth;
+      const rx = n.x + n.ox, ry = n.y + n.oy;
+
+      // Outer soft halo
       ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r + 3, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${n.col.fill},${glow * 0.1})`;
+      ctx.arc(rx, ry, n.r + 5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${n.col.fill},${alpha * 0.12})`;
+      ctx.fill();
+      // Mid ring
+      ctx.beginPath();
+      ctx.arc(rx, ry, n.r + 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${n.col.fill},${alpha * 0.25})`;
       ctx.fill();
       // Core
       ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${n.col.fill},${glow * 0.9})`;
-      ctx.shadowBlur = 10;
+      ctx.arc(rx, ry, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${n.col.fill},${alpha})`;
+      ctx.shadowBlur = 12;
       ctx.shadowColor = n.col.shadow;
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      n.x += n.vx;
-      n.y += n.vy;
+      n.x += n.vx; n.y += n.vy;
       if (n.x < 0 || n.x > W) n.vx *= -1;
       if (n.y < 0 || n.y > H) n.vy *= -1;
     });
