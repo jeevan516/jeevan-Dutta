@@ -76,7 +76,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onOpenBrief }) =>
 
       {/* Main Footer Links */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           {/* Identity */}
           <div className="space-y-3">
@@ -133,74 +133,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onOpenBrief }) =>
               <li className="flex items-center gap-1.5 text-slate-400">
                 <MapPin className="w-3.5 h-3.5 text-slate-500" />
                 <span>Hamburg, Germany</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Social & Profiles */}
-          <div className="space-y-2">
-            <h4 className="font-semibold text-white uppercase tracking-wider font-mono text-[11px]">
-              Profiles & Code
-            </h4>
-            <ul className="space-y-1.5 text-xs">
-              <li>
-                <a
-                  href={PERSONAL_INFO.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-cyan-400 transition-colors flex items-center gap-1.5"
-                >
-                  <Linkedin className="w-3.5 h-3.5" />
-                  <span>linkedin.com/in/jeevan-dutta</span>
-                  <ExternalLink className="w-3 h-3 text-slate-600" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href={PERSONAL_INFO.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-emerald-400 transition-colors flex items-center gap-1.5"
-                >
-                  <Github className="w-3.5 h-3.5" />
-                  <span>github.com/jeevan516</span>
-                  <ExternalLink className="w-3 h-3 text-slate-600" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/jeevan516/jeevan-Dutta"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-emerald-400 transition-colors flex items-center gap-1.5 text-emerald-300/90 font-mono text-[11px]"
-                >
-                  <Github className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Portfolio Source (jeevan-Dutta)</span>
-                  <ExternalLink className="w-3 h-3 text-emerald-500" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://github.com/jeevan516/4-node-communication-network-master-thesis"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-purple-400 transition-colors flex items-center gap-1.5 text-purple-300/90 font-mono text-[11px]"
-                >
-                  <Github className="w-3.5 h-3.5 text-purple-400" />
-                  <span>Public Thesis VHDL Repo</span>
-                  <ExternalLink className="w-3 h-3 text-purple-500" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href={PERSONAL_INFO.githubPages}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-slate-300 transition-colors flex items-center gap-1.5 text-[11px] font-mono text-slate-500"
-                >
-                  <span>Original GitHub Pages</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
               </li>
             </ul>
           </div>

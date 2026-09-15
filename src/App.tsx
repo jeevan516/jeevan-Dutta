@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TargetRole } from './types';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -34,6 +34,18 @@ export default function App() {
       return 'dark';
     }
   });
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('light-theme');
+      document.documentElement.classList.remove('dark');
+      document.body.classList.add('light-theme');
+    } else {
+      document.documentElement.classList.remove('light-theme');
+      document.documentElement.classList.add('dark');
+      document.body.classList.remove('light-theme');
+    }
+  }, [theme]);
 
   const toggleTheme = () => {
     setTheme((prev) => {

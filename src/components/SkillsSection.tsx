@@ -12,8 +12,6 @@ import {
   CheckCircle2, 
   ShieldCheck, 
   Cpu, 
-  ExternalLink,
-  Linkedin,
   FileCheck,
   CheckSquare,
   Users,
@@ -266,7 +264,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
                 </div>
 
                 <div className="mt-3 pt-2 border-t border-slate-800/80">
-                  <div className="flex flex-wrap gap-1 mb-2.5">
+                  <div className="flex flex-wrap gap-1">
                     {cert.skills.map((s, idx) => (
                       <span
                         key={idx}
@@ -276,19 +274,6 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
                       </span>
                     ))}
                   </div>
-
-                  {cert.credentialUrl && (
-                    <a
-                      href={cert.credentialUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] font-mono text-cyan-400 hover:text-cyan-300 transition-colors"
-                    >
-                      <Linkedin className="w-3 h-3 text-[#0A66C2]" />
-                      <span>Verify Credential</span>
-                      <ExternalLink className="w-2.5 h-2.5 opacity-70" />
-                    </a>
-                  )}
                 </div>
               </div>
             ))}
