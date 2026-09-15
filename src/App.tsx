@@ -1,0 +1,148 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useState } from 'react';
+import { TargetRole } from './types';
+import { Navbar } from './components/Navbar';
+import { Hero } from './components/Hero';
+import { AboutSection } from './components/AboutSection';
+import { EducationSection } from './components/EducationSection';
+import { MasterThesisSection } from './components/MasterThesisSection';
+import { ProjectsSection } from './components/ProjectsSection';
+import { SkillsSection } from './components/SkillsSection';
+import { ExperienceTimeline } from './components/ExperienceTimeline';
+import { AcademicReferenceSection } from './components/AcademicReferenceSection';
+import { PortfolioTracker } from './components/PortfolioTracker';
+import { ContactModal } from './components/ContactModal';
+import { ExecutiveBriefModal } from './components/ExecutiveBriefModal';
+import { JeevanChatbot } from './components/JeevanChatbot';
+import { Footer } from './components/Footer';
+
+export default function App() {
+  const [activeView, setActiveView] = useState<'showcase' | 'tracker'>('showcase');
+  const [activeRole, setActiveRole] = useState<TargetRole>('all');
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isBriefOpen, setIsBriefOpen] = useState(false);
+
+  // When a recruiter submits an opportunity from ContactModal, we can record it
+  const handleOpportunitySubmitted = (opportunity: {
+    company: string;
+    contact: string;
+    email: string;
+    role: string;
+    message: string;
+  }) => {
+    try {
+      const saved = localStorage.getItem('jeevan_portfolio_pipeline');
+      const existing = saved ? JSON.parse(saved) : [];
+      const newLead = {
+        id: `lead-${Date.now()}`,
+        companyName: opportunity.company,
+        contactName: opportunity.contact,
+        email: opportunity.email,
+        roleTitle: opportunity.role,
+        locationType: 'Hamburg Onsite',
+        stage: 'inquiry',
+        message: opportunity.message,
+        salaryOrBudget: 'Market Standard',
+        dateAdded: new Date().toISOString().split('T')[0],
+        notes: 'Submitted via website contact form.',
+      };
+      localStorage.setItem('jeevan_portfolio_pipeline', JSON.stringify([newLead, ...existing]));
+    } catch (e) {
+      console.warn('LocalStorage error', e);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#070a12] text-[#e2e8f0] flex flex-col selection:bg-emerald-500/30 selection:text-emerald-200">
+      
+      {/* Navigation */}
+      <Navbar
+        activeView={activeView}
+        setActiveView={setActiveView}
+        onOpenContact={() => setIsContactOpen(true)}
+        onOpenBrief={() => setIsBriefOpen(true)}
+      />
+
+      {/* Main Content Area */}
+      <main className="flex-1">
+        {activeView === 'showcase' ? (
+          <>
+            {/* High-Impact Hero with Live Graphics & Role Filter */}
+            <Hero
+              activeRole={activeRole}
+              setActiveRole={setActiveRole}
+              onOpenContact={() => setIsContactOpen(true)}
+              onOpenBrief={() => setIsBriefOpen(true)}
+            />
+
+            {/* About & Dual Foundation Section */}
+            <AboutSection />
+
+            {/* University Education & Master's Thesis Research Project */}
+            <EducationSection />
+
+            {/* Master's Thesis Dedicated Deep-Dive Block (TU Clausthal & Prof. Dr. Christian Siemers) */}
+            <MasterThesisSection
+              onOpenContact={() => setIsContactOpen(true)}
+            />
+
+            {/* Projects with Real-World Industrial & AI Impact */}
+            <ProjectsSection activeRole={activeRole} />
+
+            {/* Comprehensive Skills & Verified Certifications */}
+            <SkillsSection activeRole={activeRole} />
+
+            {/* Experience & Academic Trajectory (WaDaCon & TU Clausthal) */}
+            <ExperienceTimeline />
+
+            {/* Academic Reference & Research Supervised by Prof. Dr. Christian Siemers */}
+            <AcademicReferenceSection />
+
+            {/* Embedded Portfolio Tracker & Recruiter Hub */}
+            <PortfolioTracker
+              onOpenContact={() => setIsContactOpen(true)}
+              onOpenBrief={() => setIsBriefOpen(true)}
+            />
+          </>
+        ) : (
+          /* Dedicated Recruiter & Portfolio Tracker Hub */
+          <div className="py-6">
+            <PortfolioTracker
+              onOpenContact={() => setIsContactOpen(true)}
+              onOpenBrief={() => setIsBriefOpen(true)}
+            />
+          </div>
+        )}
+      </main>
+
+      {/* Footer */}
+      <Footer
+        onOpenContact={() => setIsContactOpen(true)}
+        onOpenBrief={() => setIsBriefOpen(true)}
+      />
+
+      {/* AI Portfolio Career Chatbot */}
+      <JeevanChatbot
+        onOpenContact={() => setIsContactOpen(true)}
+        onOpenBrief={() => setIsBriefOpen(true)}
+      />
+
+      {/* Modals */}
+      <ContactModal
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+        onOpportunitySubmitted={handleOpportunitySubmitted}
+      />
+
+      <ExecutiveBriefModal
+        isOpen={isBriefOpen}
+        onClose={() => setIsBriefOpen(false)}
+      />
+
+    </div>
+  );
+}
