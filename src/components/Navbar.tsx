@@ -81,6 +81,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               <a href="#projects" className="hover:text-emerald-400 transition-colors">Projects</a>
               <a href="#skills" className="hover:text-emerald-400 transition-colors">Skills & Certs</a>
               <a href="#experience" className="hover:text-emerald-400 text-slate-200 transition-colors font-medium">Work Experience</a>
+              <a href="#observability" className="hover:text-emerald-400 text-emerald-400/90 transition-colors flex items-center gap-1 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Observability Studio
+              </a>
               <a href="#academic-reference" className="hover:text-purple-400 text-purple-300/90 transition-colors flex items-center gap-1">
                 Academic Reference
               </a>

@@ -14,6 +14,7 @@ import { ProjectsSection } from './components/ProjectsSection';
 import { SkillsSection } from './components/SkillsSection';
 import { ExperienceTimeline } from './components/ExperienceTimeline';
 import { AcademicReferenceSection } from './components/AcademicReferenceSection';
+import { InteractiveArchitectureStudio } from './components/graphics/InteractiveArchitectureStudio';
 import { PortfolioTracker } from './components/PortfolioTracker';
 import { ContactModal } from './components/ContactModal';
 import { ExecutiveBriefModal } from './components/ExecutiveBriefModal';
@@ -101,6 +102,9 @@ export default function App() {
 
             {/* Academic Reference & Research Supervised by Prof. Dr. Christian Siemers */}
             <AcademicReferenceSection />
+
+            {/* Interactive Industrial Observability & System Architecture Studio */}
+            <InteractiveArchitectureStudio />
 
             {/* Embedded Portfolio Tracker & Recruiter Hub */}
             <PortfolioTracker
