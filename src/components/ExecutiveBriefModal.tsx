@@ -49,9 +49,14 @@ KEY TECHNICAL CAPABILITIES:
 - Backend & Data: FastAPI, SQLAlchemy, SQL, Power BI DAX Analytics
 
 CERTIFICATIONS:
-- Claude Code in Action (Anthropic)
-- Career Essentials in Generative AI (Microsoft & LinkedIn)
-- Data Analytics & Visualization Job Simulation (Accenture North America)
+- Claude Code in Action (Anthropic, 2026)
+- Networking Foundations: Networking Basics (LinkedIn Learning, 2026)
+- AI Tools Workshop Certification (Be10x, 2026)
+- Requirements Elicitation & Analysis (PMI & NASBA Accredited)
+- Certified Scrum Master (NASBA Accredited)
+- Business Analysis Foundations & BPMN (IIBA Endorsed)
+- ITIL® 4 & IT Service Management Foundations
+- German Language Qualification (BAMF DTZ B1 gut erfüllt)
 ======================================================================`;
 
     navigator.clipboard.writeText(briefText);
@@ -105,14 +110,23 @@ CERTIFICATIONS:
           
           {/* Header */}
           <div className="border-b border-slate-800 pb-6 print:border-slate-300">
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-              <div>
-                <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white print:text-black">
-                  {PERSONAL_INFO.name}
-                </h2>
-                <p className="text-sm font-semibold text-emerald-400 print:text-emerald-700 font-mono mt-0.5">
-                  {PERSONAL_INFO.title} · MSc Informatics
-                </p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden ring-2 ring-emerald-500/50 shrink-0 bg-slate-800 print:ring-1 print:ring-slate-400">
+                  <img
+                    src="./jeevan-dutta.jpg"
+                    alt="Jeevan Dutta"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white print:text-black">
+                    {PERSONAL_INFO.name}
+                  </h2>
+                  <p className="text-sm font-semibold text-emerald-400 print:text-emerald-700 font-mono mt-0.5">
+                    {PERSONAL_INFO.title} · MSc Informatics
+                  </p>
+                </div>
               </div>
               <div className="text-xs font-mono text-slate-400 print:text-slate-600 sm:text-right space-y-0.5">
                 <div>{PERSONAL_INFO.location} · Available Immediately</div>

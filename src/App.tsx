@@ -26,6 +26,26 @@ export default function App() {
   const [activeRole, setActiveRole] = useState<TargetRole>('all');
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isBriefOpen, setIsBriefOpen] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    try {
+      const stored = localStorage.getItem('jeevan_portfolio_theme');
+      return (stored as 'dark' | 'light') || 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const next = prev === 'dark' ? 'light' : 'dark';
+      try {
+        localStorage.setItem('jeevan_portfolio_theme', next);
+      } catch (e) {
+        console.warn('Could not save theme preference', e);
+      }
+      return next;
+    });
+  };
 
   // When a recruiter submits an opportunity from ContactModal, we can record it
   const handleOpportunitySubmitted = (opportunity: {
@@ -58,7 +78,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070a12] text-[#e2e8f0] flex flex-col selection:bg-emerald-500/30 selection:text-emerald-200">
+    <div className={`min-h-screen flex flex-col transition-colors duration-300 ${theme === 'dark' ? 'dark-theme bg-[#070a12] text-[#e2e8f0]' : 'light-theme bg-[#f8fafc] text-[#0f172a]'} selection:bg-emerald-500/30 selection:text-emerald-200`}>
       
       {/* Navigation */}
       <Navbar
@@ -66,6 +86,8 @@ export default function App() {
         setActiveView={setActiveView}
         onOpenContact={() => setIsContactOpen(true)}
         onOpenBrief={() => setIsBriefOpen(true)}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       {/* Main Content Area */}

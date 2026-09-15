@@ -67,18 +67,53 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
         </div>
 
-        {/* Hero Title & Pitch */}
+        {/* Hero Title, Executive Portrait & Pitch */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           <div className="lg:col-span-7 space-y-6">
+            
+            {/* Executive Portrait & Identity Header */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-md shadow-lg shadow-black/30">
+              <div className="relative shrink-0">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden ring-2 ring-emerald-500/60 shadow-xl shadow-emerald-500/20 bg-slate-800">
+                  <img
+                    src="./jeevan-dutta.jpg"
+                    alt="Jeevan Dutta - MSc Informatics TU Clausthal"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <span className="absolute -bottom-1 -right-1 flex h-4 w-4">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 ring-2 ring-slate-900"></span>
+                </span>
+              </div>
+
+              <div className="space-y-1.5 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2 className="text-xl sm:text-2xl font-display font-bold text-white tracking-tight">
+                    Jeevan Dutta
+                  </h2>
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-semibold">
+                    MSc Informatics · TU Clausthal
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-300 font-medium">
+                  IT Specialist & AI Engineer · Dual Foundation in Data Intelligence & Enterprise Infrastructure
+                </p>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 font-mono">
+                  <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    Immediate Availability
+                  </span>
+                  <span>·</span>
+                  <span>Hamburg, Germany</span>
+                  <span>·</span>
+                  <span className="text-purple-300">Supervised by Prof. Dr. Siemers</span>
+                </div>
+              </div>
+            </div>
+
             <div className="space-y-2">
-              <h2 className="text-xs sm:text-sm font-mono uppercase tracking-widest text-emerald-400 font-semibold flex items-center gap-2">
-                <span>Jeevan Dutta</span>
-                <span className="text-slate-500">·</span>
-                <span>MSc Informatics (TU Clausthal)</span>
-                <span className="text-slate-500">·</span>
-                <span className="text-purple-400">Master Thesis (ZanderLink 4-Node)</span>
-              </h2>
               <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
                 Bridging <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Data Intelligence</span> & <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400 bg-clip-text text-transparent">IT Engineering</span>
               </h1>

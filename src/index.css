@@ -22,6 +22,129 @@
   }
 }
 
+/* Light Theme Styling System */
+.light-theme {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  color-scheme: light;
+}
+
+.light-theme body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+.light-theme .bg-\[\#070a12\] {
+  background-color: #f8fafc !important;
+}
+
+.light-theme .bg-\[\#070a12\]\/80,
+.light-theme .bg-\[\#070a12\]\/90 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.light-theme .bg-slate-950,
+.light-theme .bg-slate-950\/40,
+.light-theme .bg-slate-950\/60,
+.light-theme .bg-slate-950\/80 {
+  background-color: #f1f5f9 !important;
+}
+
+.light-theme .bg-slate-900,
+.light-theme .bg-slate-900\/40,
+.light-theme .bg-slate-900\/60,
+.light-theme .bg-slate-900\/70,
+.light-theme .bg-slate-900\/80,
+.light-theme .bg-slate-900\/90,
+.light-theme .bg-slate-900\/95 {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
+}
+
+.light-theme .bg-slate-800,
+.light-theme .bg-slate-800\/60,
+.light-theme .bg-slate-800\/80,
+.light-theme .bg-slate-800\/90 {
+  background-color: #e2e8f0 !important;
+}
+
+.light-theme .text-white {
+  color: #0f172a !important;
+}
+
+.light-theme .text-slate-100,
+.light-theme .text-slate-200 {
+  color: #1e293b !important;
+}
+
+.light-theme .text-slate-300 {
+  color: #334155 !important;
+}
+
+.light-theme .text-slate-400 {
+  color: #64748b !important;
+}
+
+.light-theme .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.light-theme .border-slate-800,
+.light-theme .border-slate-800\/40,
+.light-theme .border-slate-800\/60,
+.light-theme .border-slate-800\/80,
+.light-theme .border-slate-800\/90,
+.light-theme .border-slate-700,
+.light-theme .border-slate-700\/50,
+.light-theme .border-slate-700\/60,
+.light-theme .border-slate-700\/90 {
+  border-color: #cbd5e1 !important;
+}
+
+.light-theme header {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  border-color: #e2e8f0 !important;
+}
+
+.light-theme .bg-emerald-950\/40 {
+  background-color: #ecfdf5 !important;
+  border-color: #6ee7b7 !important;
+}
+
+.light-theme .text-emerald-200 {
+  color: #065f46 !important;
+}
+
+.light-theme .bg-purple-950\/40,
+.light-theme .bg-purple-950\/30 {
+  background-color: #faf5ff !important;
+  border-color: #d8b4fe !important;
+}
+
+.light-theme .text-purple-200,
+.light-theme .text-purple-300 {
+  color: #6b21a8 !important;
+}
+
+.light-theme .bg-cyan-950\/40,
+.light-theme .bg-cyan-950\/30 {
+  background-color: #ecfeff !important;
+  border-color: #a5f3fc !important;
+}
+
+.light-theme .text-cyan-200,
+.light-theme .text-cyan-300 {
+  color: #0e7490 !important;
+}
+
+.light-theme input,
+.light-theme textarea,
+.light-theme select {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
 /* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 7px;

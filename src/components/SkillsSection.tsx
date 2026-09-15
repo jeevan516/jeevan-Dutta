@@ -23,7 +23,8 @@ import {
   Briefcase,
   Layers,
   Binary,
-  Filter
+  Filter,
+  Radio
 } from 'lucide-react';
 
 interface SkillsSectionProps {
@@ -81,16 +82,22 @@ const getCertIcon = (iconName: string) => {
       return <Binary className="w-4 h-4 text-purple-400" />;
     case 'Globe':
       return <Globe className="w-4 h-4 text-emerald-400" />;
+    case 'Radio':
+      return <Radio className="w-4 h-4 text-cyan-400" />;
+    case 'Sparkles':
+      return <Sparkles className="w-4 h-4 text-amber-400" />;
     default:
       return <Award className="w-4 h-4 text-emerald-400" />;
   }
 };
 
 export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
-  const [certFilter, setCertFilter] = useState<'all' | 'business-analysis' | 'ai-ml' | 'it-management' | 'data-eng' | 'languages'>('all');
+  const [certFilter, setCertFilter] = useState<'all' | '2026' | 'business-analysis' | 'ai-ml' | 'it-management' | 'data-eng' | 'languages'>('all');
 
   const filteredCerts = certFilter === 'all' 
     ? CERTIFICATIONS 
+    : certFilter === '2026'
+    ? CERTIFICATIONS.filter(c => c.year === '2026' || c.date.includes('2026'))
     : CERTIFICATIONS.filter(c => c.category === certFilter);
 
   return (
@@ -187,7 +194,8 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
             {/* Filter pills */}
             <div className="flex flex-wrap gap-1.5 p-1.5 bg-slate-900 border border-slate-800 rounded-xl self-start md:self-auto">
               {[
-                { id: 'all', label: 'All Credentials' },
+                { id: 'all', label: `All (${CERTIFICATIONS.length})` },
+                { id: '2026', label: '⚡ 2026 Certified' },
                 { id: 'business-analysis', label: 'Business Analysis & Requirements' },
                 { id: 'it-management', label: 'ITIL & SAP ERP' },
                 { id: 'ai-ml', label: 'AI & VLSI' },
@@ -199,7 +207,9 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
                   onClick={() => setCertFilter(tab.id as any)}
                   className={`px-3 py-1 rounded-lg text-xs font-mono font-medium transition-all ${
                     certFilter === tab.id
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                      ? tab.id === '2026'
+                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-sm'
+                        : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
@@ -213,7 +223,11 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
             {filteredCerts.map((cert) => (
               <div
                 key={cert.id}
-                className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/90 hover:border-emerald-500/40 transition-all duration-200 flex flex-col justify-between shadow-sm hover:shadow-md"
+                className={`p-4 rounded-xl bg-slate-900/70 border transition-all duration-200 flex flex-col justify-between shadow-sm hover:shadow-md ${
+                  cert.year === '2026' || cert.date.includes('2026')
+                    ? 'border-emerald-500/50 ring-1 ring-emerald-500/20'
+                    : 'border-slate-800/90 hover:border-emerald-500/40'
+                }`}
               >
                 <div>
                   <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
@@ -223,7 +237,14 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
                       </div>
                       <span className="font-mono text-emerald-400 font-semibold">{cert.issuer}</span>
                     </div>
-                    <span className="text-[11px] font-mono text-slate-400">{cert.date}</span>
+                    <div className="flex items-center gap-1.5">
+                      {(cert.year === '2026' || cert.date.includes('2026')) && (
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                          2026
+                        </span>
+                      )}
+                      <span className="text-[11px] font-mono text-slate-400">{cert.date}</span>
+                    </div>
                   </div>
 
                   <h4 className="text-sm font-bold text-white leading-snug">

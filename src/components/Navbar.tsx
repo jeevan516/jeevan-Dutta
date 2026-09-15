@@ -1,5 +1,5 @@
-import React from 'react';
-import { Briefcase, BarChart3, Mail, FileText, Github, Linkedin, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { Briefcase, BarChart3, Mail, FileText, Github, Linkedin, Sparkles, Sun, Moon } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
 interface NavbarProps {
@@ -7,6 +7,8 @@ interface NavbarProps {
   setActiveView: (view: 'showcase' | 'tracker') => void;
   onOpenContact: () => void;
   onOpenBrief: () => void;
+  theme: 'dark' | 'light';
+  onToggleTheme: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -14,17 +16,33 @@ export const Navbar: React.FC<NavbarProps> = ({
   setActiveView,
   onOpenContact,
   onOpenBrief,
+  theme,
+  onToggleTheme,
 }) => {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-[#070a12]/80 backdrop-blur-xl transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
           
-          {/* Logo & Identity */}
+          {/* Logo & Identity with Profile Picture */}
           <div className="flex items-center gap-3">
-            <a href="#" className="flex items-center gap-2.5 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-slate-950 font-extrabold text-lg shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-                JD
+            <a href="#" className="flex items-center gap-3 group">
+              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden ring-2 ring-emerald-500/50 shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform shrink-0 bg-slate-800">
+                {!imageError ? (
+                  <img
+                    src="./jeevan-dutta.jpg"
+                    alt="Jeevan Dutta"
+                    className="w-full h-full object-cover object-top"
+                    onError={() => setImageError(true)}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-slate-950 font-extrabold text-sm">
+                    JD
+                  </div>
+                )}
+                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-slate-900" />
               </div>
               <div>
                 <span className="font-display font-bold text-base sm:text-lg tracking-tight text-white group-hover:text-emerald-400 transition-colors">
@@ -113,6 +131,24 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Linkedin className="w-4 h-4" />
             </a>
+
+            {/* Theme Toggle Button */}
+            <button
+              id="theme-toggle-btn"
+              onClick={onToggleTheme}
+              className="p-2 rounded-xl text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-700 transition-all flex items-center gap-1.5"
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label="Toggle Dark/Light Mode"
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-cyan-400" />
+              )}
+              <span className="hidden xl:inline text-[11px] font-mono font-medium">
+                {theme === 'dark' ? 'Light' : 'Dark'}
+              </span>
+            </button>
 
             {/* Recruiter Brief Button */}
             <button

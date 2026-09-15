@@ -94,8 +94,46 @@ export const AboutSection: React.FC = () => {
 
           </div>
 
-          {/* Right Column: Architectural Highlights & Interactive Visualizer */}
+          {/* Right Column: Architectural Highlights, Executive Profile & Interactive Visualizer */}
           <div className="lg:col-span-5 space-y-4">
+            {/* Professional Profile Spotlight Card */}
+            <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 backdrop-blur-md shadow-xl flex items-center gap-4">
+              <div className="relative shrink-0">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden ring-2 ring-emerald-500/50 shadow-md bg-slate-800">
+                  <img
+                    src="./jeevan-dutta.jpg"
+                    alt="Jeevan Dutta - Professional Profile"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div className="absolute -bottom-1 -right-1 p-1 rounded-full bg-emerald-500 text-slate-950">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-slate-950 font-bold" />
+                </div>
+              </div>
+
+              <div className="space-y-1 text-xs">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base font-bold text-white font-display">
+                    Jeevan Dutta
+                  </h3>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    Verified
+                  </span>
+                </div>
+                <div className="text-slate-300 font-medium">
+                  MSc Informatics (TU Clausthal)
+                </div>
+                <div className="text-slate-400 text-[11px] leading-snug">
+                  Specializing in Industrial IoT Observability, Deep Sequence Forecasting, and Resilient IT Architecture.
+                </div>
+                <div className="flex items-center gap-2 text-[10px] font-mono text-emerald-400 pt-0.5">
+                  <span>Authorized to Work in Germany</span>
+                  <span>·</span>
+                  <span>DTZ B1 Certified</span>
+                </div>
+              </div>
+            </div>
+
             <SystemArchitectureVisualizer />
           </div>
 

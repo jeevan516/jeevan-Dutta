@@ -80,16 +80,25 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onOpenBrief }) =>
           
           {/* Identity */}
           <div className="space-y-3">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-slate-950 font-bold text-sm">
-                JD
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl overflow-hidden ring-2 ring-emerald-500/40 shrink-0 bg-slate-800">
+                <img
+                  src="./jeevan-dutta.jpg"
+                  alt="Jeevan Dutta"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
-              <span className="font-display font-bold text-white text-base">
-                {PERSONAL_INFO.name}
-              </span>
+              <div>
+                <span className="font-display font-bold text-white text-base">
+                  {PERSONAL_INFO.name}
+                </span>
+                <div className="text-[11px] text-emerald-400 font-mono">
+                  MSc Informatics · TU Clausthal
+                </div>
+              </div>
             </div>
             <p className="text-slate-400 text-xs leading-relaxed">
-              MSc Informatics (TU Clausthal). IT Specialist & AI Developer based in Hamburg, Germany.
+              IT Specialist & AI Developer based in Hamburg, Germany. Available immediately.
             </p>
             <div className="flex items-center gap-2 font-mono text-[11px] text-emerald-400">
               <Clock className="w-3.5 h-3.5" />

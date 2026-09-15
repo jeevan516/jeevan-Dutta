@@ -38,6 +38,7 @@ export interface Certification {
   certificateId?: string;
   accreditation?: string; // e.g. "CompTIA® / PMI® #4101", "IIBA® #189294", "NASBA #140940", "BAMF / g.a.s.t."
   category?: 'ai-ml' | 'business-analysis' | 'it-management' | 'data-eng' | 'languages';
+  year?: string;
 }
 
 export interface EducationItem {
