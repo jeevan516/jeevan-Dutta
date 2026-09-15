@@ -160,6 +160,18 @@ export const Footer: React.FC<FooterProps> = ({ onOpenContact, onOpenBrief }) =>
               </li>
               <li>
                 <a
+                  href="https://github.com/jeevan516/jeevan-Dutta"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-emerald-400 transition-colors flex items-center gap-1.5 text-emerald-300/90 font-mono text-[11px]"
+                >
+                  <Github className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Portfolio Source (jeevan-Dutta)</span>
+                  <ExternalLink className="w-3 h-3 text-emerald-500" />
+                </a>
+              </li>
+              <li>
+                <a
                   href="https://github.com/jeevan516/4-node-communication-network-master-thesis"
                   target="_blank"
                   rel="noopener noreferrer"
