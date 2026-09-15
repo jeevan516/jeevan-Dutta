@@ -35,6 +35,9 @@ export interface Certification {
   credentialUrl?: string;
   skills: string[];
   icon: string;
+  certificateId?: string;
+  accreditation?: string; // e.g. "CompTIA® / PMI® #4101", "IIBA® #189294", "NASBA #140940", "BAMF / g.a.s.t."
+  category?: 'ai-ml' | 'business-analysis' | 'it-management' | 'data-eng' | 'languages';
 }
 
 export interface EducationItem {

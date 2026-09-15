@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SKILL_CATEGORIES, CERTIFICATIONS } from '../data/portfolioData';
 import { TargetRole } from '../types';
 import { 
@@ -14,7 +14,16 @@ import {
   Cpu, 
   ExternalLink,
   Linkedin,
-  FileCheck
+  FileCheck,
+  CheckSquare,
+  Users,
+  MessageSquare,
+  TrendingUp,
+  Globe,
+  Briefcase,
+  Layers,
+  Binary,
+  Filter
 } from 'lucide-react';
 
 interface SkillsSectionProps {
@@ -38,7 +47,52 @@ const getCategoryIcon = (iconName: string) => {
   }
 };
 
+const getCertIcon = (iconName: string) => {
+  switch (iconName) {
+    case 'Briefcase':
+      return <Briefcase className="w-4 h-4 text-emerald-400" />;
+    case 'Brain':
+      return <Brain className="w-4 h-4 text-purple-400" />;
+    case 'Cpu':
+      return <Cpu className="w-4 h-4 text-cyan-400" />;
+    case 'ShieldCheck':
+      return <ShieldCheck className="w-4 h-4 text-emerald-400" />;
+    case 'Award':
+      return <Award className="w-4 h-4 text-amber-400" />;
+    case 'FileCheck':
+      return <FileCheck className="w-4 h-4 text-blue-400" />;
+    case 'Activity':
+      return <Activity className="w-4 h-4 text-teal-400" />;
+    case 'Users':
+      return <Users className="w-4 h-4 text-indigo-400" />;
+    case 'MessageSquare':
+      return <MessageSquare className="w-4 h-4 text-emerald-400" />;
+    case 'Layers':
+      return <Layers className="w-4 h-4 text-cyan-400" />;
+    case 'CheckSquare':
+      return <CheckSquare className="w-4 h-4 text-teal-400" />;
+    case 'TrendingUp':
+      return <TrendingUp className="w-4 h-4 text-emerald-400" />;
+    case 'Server':
+      return <Server className="w-4 h-4 text-blue-400" />;
+    case 'Database':
+      return <Database className="w-4 h-4 text-indigo-400" />;
+    case 'Binary':
+      return <Binary className="w-4 h-4 text-purple-400" />;
+    case 'Globe':
+      return <Globe className="w-4 h-4 text-emerald-400" />;
+    default:
+      return <Award className="w-4 h-4 text-emerald-400" />;
+  }
+};
+
 export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
+  const [certFilter, setCertFilter] = useState<'all' | 'business-analysis' | 'ai-ml' | 'it-management' | 'data-eng' | 'languages'>('all');
+
+  const filteredCerts = certFilter === 'all' 
+    ? CERTIFICATIONS 
+    : CERTIFICATIONS.filter(c => c.category === certFilter);
+
   return (
     <section id="skills" className="py-16 border-t border-slate-800/80 bg-slate-950/40 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -116,39 +170,82 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
 
         {/* Industry Certifications */}
         <div className="mt-8 pt-8 border-t border-slate-800/80">
-          <div className="flex items-center justify-between gap-4 mb-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-mono text-emerald-400 font-semibold uppercase tracking-wider">
                 <Award className="w-4 h-4" />
                 Continuous Learning & Verified Credentials
               </div>
               <h3 className="text-xl sm:text-2xl font-display font-bold text-white mt-1">
-                Certifications & Academic Credentials
+                Certifications & Professional Credentials ({CERTIFICATIONS.length})
               </h3>
+              <p className="text-slate-400 text-xs sm:text-sm mt-1">
+                Verified certificates across IIBA®, PMI®, CompTIA®, NASBA, Microsoft, Coursera, SAP & BAMF German Language.
+              </p>
             </div>
-            <span className="hidden sm:inline-block text-xs font-mono text-slate-400">
-              Anthropic · Microsoft · TU Clausthal · LinkedIn · Accenture
-            </span>
+
+            {/* Filter pills */}
+            <div className="flex flex-wrap gap-1.5 p-1.5 bg-slate-900 border border-slate-800 rounded-xl self-start md:self-auto">
+              {[
+                { id: 'all', label: 'All Credentials' },
+                { id: 'business-analysis', label: 'Business Analysis & Requirements' },
+                { id: 'it-management', label: 'ITIL & SAP ERP' },
+                { id: 'ai-ml', label: 'AI & VLSI' },
+                { id: 'data-eng', label: 'Data Science & BI' },
+                { id: 'languages', label: 'Language (DTZ B1)' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setCertFilter(tab.id as any)}
+                  className={`px-3 py-1 rounded-lg text-xs font-mono font-medium transition-all ${
+                    certFilter === tab.id
+                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {CERTIFICATIONS.map((cert) => (
+            {filteredCerts.map((cert) => (
               <div
                 key={cert.id}
-                className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 transition-all flex flex-col justify-between"
+                className="p-4 rounded-xl bg-slate-900/70 border border-slate-800/90 hover:border-emerald-500/40 transition-all duration-200 flex flex-col justify-between shadow-sm hover:shadow-md"
               >
                 <div>
-                  <div className="flex items-center justify-between text-xs text-slate-400 mb-1.5">
-                    <span className="font-mono text-emerald-400 font-semibold">{cert.issuer}</span>
+                  <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+                    <div className="flex items-center gap-1.5">
+                      <div className="p-1 rounded-md bg-slate-800 border border-slate-700">
+                        {getCertIcon(cert.icon)}
+                      </div>
+                      <span className="font-mono text-emerald-400 font-semibold">{cert.issuer}</span>
+                    </div>
                     <span className="text-[11px] font-mono text-slate-400">{cert.date}</span>
                   </div>
+
                   <h4 className="text-sm font-bold text-white leading-snug">
                     {cert.title}
                   </h4>
+
+                  {cert.accreditation && (
+                    <div className="text-[11px] font-mono text-cyan-300/90 mt-1.5 flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3 text-cyan-400 shrink-0" />
+                      <span className="truncate">{cert.accreditation}</span>
+                    </div>
+                  )}
+
+                  {cert.certificateId && (
+                    <div className="mt-1 text-[10px] font-mono text-slate-400 truncate">
+                      ID: <span className="text-slate-300">{cert.certificateId}</span>
+                    </div>
+                  )}
                 </div>
 
-                <div className="mt-3">
-                  <div className="flex flex-wrap gap-1 mb-2.5 pt-2 border-t border-slate-800/60">
+                <div className="mt-3 pt-2 border-t border-slate-800/80">
+                  <div className="flex flex-wrap gap-1 mb-2.5">
                     {cert.skills.map((s, idx) => (
                       <span
                         key={idx}
@@ -167,7 +264,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
                       className="inline-flex items-center gap-1 text-[11px] font-mono text-cyan-400 hover:text-cyan-300 transition-colors"
                     >
                       <Linkedin className="w-3 h-3 text-[#0A66C2]" />
-                      <span>Verified on LinkedIn</span>
+                      <span>Verify Credential</span>
                       <ExternalLink className="w-2.5 h-2.5 opacity-70" />
                     </a>
                   )}
@@ -181,3 +278,4 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
     </section>
   );
 };
+
