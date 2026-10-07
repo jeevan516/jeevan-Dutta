@@ -1,5 +1,6 @@
 import React from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData';
+import { TRANSLATIONS } from '../data/translations';
 import { SystemArchitectureVisualizer } from './graphics/SystemArchitectureVisualizer';
 import { 
   Database, 
@@ -15,7 +16,12 @@ import {
   Activity
 } from 'lucide-react';
 
-export const AboutSection: React.FC = () => {
+interface AboutSectionProps {
+  language?: 'en' | 'de';
+}
+
+export const AboutSection: React.FC<AboutSectionProps> = ({ language = 'en' }) => {
+  const t = TRANSLATIONS[language].about;
   return (
     <section id="about" className="py-16 border-t border-slate-800/80 bg-slate-950/60 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,25 +34,17 @@ export const AboutSection: React.FC = () => {
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 font-semibold uppercase tracking-wider mb-2">
                 <Sparkles className="w-4 h-4" />
-                Engineering Philosophy & Background
+                {t.tag}
               </div>
               <h2 className="text-3xl sm:text-4xl font-display font-bold text-white tracking-tight">
-                Where Data Intelligence Meets Industrial Infrastructure
+                {t.heading}
               </h2>
             </div>
 
             <div className="space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed font-light">
-              <p>
-                I'm a results-oriented IT professional with a dual foundation in <strong className="text-white font-medium">Data Analysis</strong> and <strong className="text-white font-medium">IT Engineering</strong>. With an <strong className="text-emerald-400 font-medium">MSc in Informatics from TU Clausthal</strong> and over a decade of hands-on experience, I specialize in transforming complex technical processes into streamlined, impactful outcomes.
-              </p>
-
-              <p>
-                Previously at <strong className="text-white font-medium">WaDaCon GmbH</strong> in Hamburg, I applied this expertise to the recycling industry — building Next-Gen <strong className="text-cyan-400 font-medium">MRF (Material Recovery Facility)</strong> solutions through observability pipelines, AI-driven anomaly detection, and industrial IoT data engineering.
-              </p>
-
-              <p>
-                From building Grafana + Prometheus stacks to training ML models, from CI/CD automation with Docker to secure SSH tunneling with Teleport — I bring end-to-end ownership to every system I touch.
-              </p>
+              <p>{t.p1}</p>
+              <p>{t.p2}</p>
+              <p>{t.p3}</p>
             </div>
 
             {/* Pillar Grid */}
@@ -54,20 +52,20 @@ export const AboutSection: React.FC = () => {
               <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1.5">
                 <div className="flex items-center gap-2 text-emerald-400 font-semibold text-xs">
                   <Database className="w-4 h-4" />
-                  <span>Data & AI Intelligence</span>
+                  <span>{t.pillar1Title}</span>
                 </div>
                 <p className="text-xs text-slate-400 leading-normal">
-                  Spatial-temporal sequence forecasting (LSTMs), ISO vibration anomaly detection, and time-series analytics with Python & PyTorch.
+                  {t.pillar1Desc}
                 </p>
               </div>
 
               <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1.5">
                 <div className="flex items-center gap-2 text-cyan-400 font-semibold text-xs">
                   <Server className="w-4 h-4" />
-                  <span>Resilient IT Infrastructure</span>
+                  <span>{t.pillar2Title}</span>
                 </div>
                 <p className="text-xs text-slate-400 leading-normal">
-                  Docker containerization, zero-trust Teleport SSH edge access, Prometheus scraping, and automated incident webhooks.
+                  {t.pillar2Desc}
                 </p>
               </div>
             </div>
@@ -80,14 +78,14 @@ export const AboutSection: React.FC = () => {
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="font-bold text-white uppercase font-mono tracking-wider text-[11px]">
-                    Status: Available for New Role
+                    {t.availTitle}
                   </span>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-900/60 text-emerald-300 border border-emerald-700/50">
-                    Immediate Availability · Germany
+                    {t.availBadge}
                   </span>
                 </div>
                 <p className="text-slate-300 mt-1">
-                  Fully authorized for employment across Germany. Based in Hamburg, ready for immediate onboarding in full-time or high-impact contract roles (On-site, Hybrid, or Remote).
+                  {t.availDesc}
                 </p>
               </div>
             </div>

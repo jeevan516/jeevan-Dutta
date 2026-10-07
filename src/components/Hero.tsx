@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TargetRole } from '../types';
 import { PERSONAL_INFO } from '../data/portfolioData';
+import { TRANSLATIONS } from '../data/translations';
 import { NeuralNetworkCanvas } from './graphics/NeuralNetworkCanvas';
 import { IndustrialIoTMonitor } from './graphics/IndustrialIoTMonitor';
 import { VLSIIntegratedCircuitGraphic } from './graphics/VLSIIntegratedCircuitGraphic';
@@ -18,7 +19,10 @@ import {
   ChevronRight,
   ShieldAlert,
   Sparkles,
-  Cpu
+  Cpu,
+  Play,
+  Video,
+  Network
 } from 'lucide-react';
 
 interface HeroProps {
@@ -26,6 +30,7 @@ interface HeroProps {
   setActiveRole: (role: TargetRole) => void;
   onOpenContact: () => void;
   onOpenBrief: () => void;
+  language?: 'en' | 'de';
 }
 
 export const Hero: React.FC<HeroProps> = ({
@@ -33,9 +38,11 @@ export const Hero: React.FC<HeroProps> = ({
   setActiveRole,
   onOpenContact,
   onOpenBrief,
+  language = 'en',
 }) => {
   const [activeGraphic, setActiveGraphic] = useState<'neural' | 'iot' | 'vlsi'>('vlsi');
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const t = TRANSLATIONS[language].hero;
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(PERSONAL_INFO.email);
@@ -57,13 +64,13 @@ export const Hero: React.FC<HeroProps> = ({
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
             </span>
-            <span className="font-semibold text-white font-mono uppercase tracking-wider text-[11px]">Status:</span>
-            <span className="text-emerald-400 font-semibold">Available for New Role (Immediate Availability · Germany)</span>
+            <span className="font-semibold text-white font-mono uppercase tracking-wider text-[11px]">{t.statusLabel}</span>
+            <span className="text-emerald-400 font-semibold">{t.statusValue}</span>
           </div>
 
           <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-            <span>Location:</span>
-            <span className="text-slate-200 font-semibold">{PERSONAL_INFO.location}</span>
+            <span>{t.locationLabel}</span>
+            <span className="text-slate-200 font-semibold">{language === 'de' ? 'Hamburg, Deutschland (Vor-Ort / Hybrid / Remote)' : PERSONAL_INFO.location}</span>
           </div>
         </div>
 
@@ -91,36 +98,36 @@ export const Hero: React.FC<HeroProps> = ({
               <div className="space-y-1.5 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-xl sm:text-2xl font-display font-bold text-white tracking-tight">
-                    Jeevan Dutta
+                    {PERSONAL_INFO.name}
                   </h2>
                   <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-semibold">
-                    MSc Informatics · TU Clausthal
+                    {t.degreeBadge}
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-slate-300 font-medium">
-                  IT Specialist & AI Engineer · Dual Foundation in Data Intelligence & Enterprise Infrastructure
+                  {t.title}
                 </p>
                 <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 font-mono">
                   <span className="text-emerald-400 font-semibold flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    Immediate Availability
+                    {language === 'de' ? 'Sofortige Verfügbarkeit' : 'Immediate Availability'}
                   </span>
                   <span>·</span>
-                  <span>Hamburg, Germany</span>
+                  <span>{language === 'de' ? 'Hamburg, Deutschland' : 'Hamburg, Germany'}</span>
                   <span>·</span>
-                  <span className="text-purple-300">Supervised by Prof. Dr. Siemers</span>
+                  <span className="text-purple-300">{t.supervisor}</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-2">
               <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                Bridging <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Data Intelligence</span> & <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400 bg-clip-text text-transparent">IT Engineering</span>
+                {t.headlineStart} <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">{t.headlineData}</span> {t.headlineAnd} <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400 bg-clip-text text-transparent">{t.headlineInfra}</span>
               </h1>
             </div>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-light">
-              Results-oriented IT professional with a dual foundation in <strong className="text-white font-medium">Data Analysis</strong> and <strong className="text-white font-medium">IT Engineering</strong>. With an MSc in Informatics from <strong className="text-emerald-400 font-medium">TU Clausthal</strong> (Master's thesis under <strong className="text-purple-300 font-medium">Prof. Dr. Christian Siemers</strong>) and over a decade of hands-on experience, I specialize in transforming complex technical processes into streamlined, impactful outcomes. Previously engineered Next-Gen MRF solutions at <strong className="text-white font-medium">WaDaCon GmbH</strong> in Hamburg — <strong className="text-emerald-300 font-medium">available for new roles immediately</strong>.
+              {t.bio}
             </p>
 
             {/* Recruiter Role Quick-Filter Bar */}
@@ -128,17 +135,17 @@ export const Hero: React.FC<HeroProps> = ({
               <div className="flex items-center justify-between text-xs text-slate-400 font-medium">
                 <span className="flex items-center gap-1.5 text-slate-200">
                   <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                  Filter Skills & Evidence by Hiring Discipline:
+                  {t.filterHeading}
                 </span>
-                <span className="text-[11px] font-mono text-slate-500">Tailors projects & skill views below</span>
+                <span className="text-[11px] font-mono text-slate-500">{t.filterSub}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {[
-                  { id: 'all', label: 'All Disciplines', icon: Sparkles },
-                  { id: 'ai-ml', label: 'AI & ML Engineer', icon: Brain },
-                  { id: 'it-devops', label: 'IT Specialist & DevOps', icon: Server },
-                  { id: 'observability', label: 'Observability & SRE', icon: Activity },
-                  { id: 'data-eng', label: 'Data & Backend', icon: Database },
+                  { id: 'all', label: t.allRoles, icon: Sparkles },
+                  { id: 'ai-ml', label: t.aiRole, icon: Brain },
+                  { id: 'it-devops', label: t.devopsRole, icon: Server },
+                  { id: 'observability', label: t.obsRole, icon: Activity },
+                  { id: 'data-eng', label: t.dataRole, icon: Database },
                 ].map((item) => {
                   const Icon = item.icon;
                   const isActive = activeRole === item.id;
@@ -163,13 +170,37 @@ export const Hero: React.FC<HeroProps> = ({
 
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
+              <a
+                href="#video-portfolio"
+                id="hero-watch-video-btn"
+                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 text-slate-950 font-extrabold text-sm shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] active:scale-95 transition-all group"
+              >
+                <div className="w-5 h-5 rounded-full bg-slate-950/20 flex items-center justify-center">
+                  <Play className="w-3 h-3 fill-slate-950 ml-0.5 text-slate-950 group-hover:scale-110 transition-transform" />
+                </div>
+                <span>{t.watchVideo}</span>
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-950/20 text-slate-950 font-bold border border-slate-950/30">
+                  {language.toUpperCase()}
+                </span>
+              </a>
+
+              <a
+                href="#observability"
+                id="hero-load-balancers-btn"
+                className="flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-emerald-500/30 hover:border-emerald-400 text-sm font-semibold transition-all group"
+              >
+                <Network className="w-4 h-4 text-emerald-400 group-hover:rotate-12 transition-transform" />
+                <span>{language === 'de' ? 'Load Balancer & Studio' : 'Load Balancers & Studio'}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              </a>
+
               <button
                 id="hero-contact-btn"
                 onClick={onOpenContact}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 text-slate-950 font-bold text-sm shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] active:scale-95 transition-all"
+                className="flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/90 text-sm font-semibold transition-all hover:border-emerald-500/40"
               >
-                <Mail className="w-4 h-4" />
-                <span>Get in Touch / Hire Jeevan</span>
+                <Mail className="w-4 h-4 text-emerald-400" />
+                <span>{t.hireJeevan}</span>
               </button>
 
               <button
@@ -178,7 +209,7 @@ export const Hero: React.FC<HeroProps> = ({
                 className="flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/90 text-sm font-semibold transition-all"
               >
                 <FileText className="w-4 h-4 text-cyan-400" />
-                <span>Executive Brief & Resume</span>
+                <span>{t.briefBtn}</span>
               </button>
 
               <button
@@ -188,13 +219,18 @@ export const Hero: React.FC<HeroProps> = ({
                 title="Copy Email Address"
               >
                 {copiedEmail ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-slate-400" />}
-                <span>{copiedEmail ? 'Copied to Clipboard!' : PERSONAL_INFO.email}</span>
+                <span>{copiedEmail ? t.copied : PERSONAL_INFO.email}</span>
               </button>
             </div>
 
             {/* Quick KPI stats strip */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-slate-800/80">
-              {PERSONAL_INFO.stats.map((stat, idx) => (
+              {[
+                { label: t.stats.academic, value: t.stats.academicVal, detail: t.stats.academicDetail },
+                { label: t.stats.thesis, value: t.stats.thesisVal, detail: t.stats.thesisDetail },
+                { label: t.stats.status, value: t.stats.statusVal, detail: t.stats.statusDetail },
+                { label: t.stats.ttr, value: t.stats.ttrVal, detail: t.stats.ttrDetail },
+              ].map((stat, idx) => (
                 <div key={idx} className="p-2.5 rounded-xl bg-slate-900/40 border border-slate-800/60">
                   <div className="text-base sm:text-lg font-extrabold font-display text-white">
                     {stat.value}

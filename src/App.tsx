@@ -5,8 +5,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { TargetRole } from './types';
+import { Languages } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { VideoPortfolioSection } from './components/VideoPortfolioSection';
 import { AboutSection } from './components/AboutSection';
 import { EducationSection } from './components/EducationSection';
 import { MasterThesisSection } from './components/MasterThesisSection';
@@ -26,6 +28,27 @@ export default function App() {
   const [activeRole, setActiveRole] = useState<TargetRole>('all');
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isBriefOpen, setIsBriefOpen] = useState(false);
+  const [language, setLanguage] = useState<'en' | 'de'>(() => {
+    try {
+      const stored = localStorage.getItem('jeevan_portfolio_lang');
+      return (stored as 'en' | 'de') || 'en';
+    } catch {
+      return 'en';
+    }
+  });
+
+  const toggleLanguage = () => {
+    setLanguage((prev) => {
+      const next = prev === 'en' ? 'de' : 'en';
+      try {
+        localStorage.setItem('jeevan_portfolio_lang', next);
+      } catch (e) {
+        console.warn('Could not save language preference', e);
+      }
+      return next;
+    });
+  };
+
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     try {
       const stored = localStorage.getItem('jeevan_portfolio_theme');
@@ -100,6 +123,8 @@ export default function App() {
         onOpenBrief={() => setIsBriefOpen(true)}
         theme={theme}
         onToggleTheme={toggleTheme}
+        language={language}
+        onToggleLanguage={toggleLanguage}
       />
 
       {/* Main Content Area */}
@@ -112,13 +137,22 @@ export default function App() {
               setActiveRole={setActiveRole}
               onOpenContact={() => setIsContactOpen(true)}
               onOpenBrief={() => setIsBriefOpen(true)}
+              language={language}
+            />
+
+            {/* High-Impact Bilingual Video Portfolio & Executive Pitch (English & German) */}
+            <VideoPortfolioSection
+              onOpenContact={() => setIsContactOpen(true)}
+              onOpenBrief={() => setIsBriefOpen(true)}
+              language={language}
+              onToggleLanguage={toggleLanguage}
             />
 
             {/* About & Dual Foundation Section */}
-            <AboutSection />
+            <AboutSection language={language} />
 
             {/* University Education & Master's Thesis Research Project */}
-            <EducationSection />
+            <EducationSection language={language} />
 
             {/* Master's Thesis Dedicated Deep-Dive Block (TU Clausthal & Prof. Dr. Christian Siemers) */}
             <MasterThesisSection
@@ -126,10 +160,10 @@ export default function App() {
             />
 
             {/* Projects with Real-World Industrial & AI Impact */}
-            <ProjectsSection activeRole={activeRole} />
+            <ProjectsSection activeRole={activeRole} language={language} />
 
             {/* Comprehensive Skills & Verified Certifications */}
-            <SkillsSection activeRole={activeRole} />
+            <SkillsSection activeRole={activeRole} language={language} />
 
             {/* Experience & Academic Trajectory (WaDaCon & TU Clausthal) */}
             <ExperienceTimeline />
@@ -138,7 +172,7 @@ export default function App() {
             <AcademicReferenceSection />
 
             {/* Interactive Industrial Observability & System Architecture Studio */}
-            <InteractiveArchitectureStudio />
+            <InteractiveArchitectureStudio language={language} />
 
             {/* Embedded Portfolio Tracker & Recruiter Hub */}
             <PortfolioTracker
@@ -180,6 +214,32 @@ export default function App() {
         isOpen={isBriefOpen}
         onClose={() => setIsBriefOpen(false)}
       />
+
+      {/* Floating Quick Translate Button (Bottom-Left) */}
+      <div className="fixed bottom-6 left-6 z-40">
+        <button
+          id="floating-translate-btn"
+          onClick={toggleLanguage}
+          className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-slate-900/95 hover:bg-slate-800 text-white border-2 border-emerald-500/60 hover:border-emerald-400 shadow-2xl shadow-emerald-500/20 backdrop-blur-xl text-xs font-bold transition-all hover:scale-105 active:scale-95 group"
+          title={language === 'de' ? 'Switch back to English' : 'Gesamte Seite auf Deutsch übersetzen'}
+        >
+          <div className="w-7 h-7 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:rotate-12 transition-transform">
+            <Languages className="w-4 h-4" />
+          </div>
+          <div className="text-left leading-tight">
+            <div className="text-[10px] text-slate-400 uppercase font-mono tracking-wider">
+              {language === 'de' ? 'Sprache / Language' : 'Translate Page'}
+            </div>
+            <div className="text-xs font-extrabold flex items-center gap-1.5 text-white">
+              <span>{language === 'de' ? '🇩🇪 Deutsch' : '🇬🇧 English'}</span>
+              <span className="text-emerald-400 text-[10px]">⇄</span>
+              <span className="text-[11px] text-slate-400 font-normal">
+                {language === 'de' ? 'EN' : 'DE'}
+              </span>
+            </div>
+          </div>
+        </button>
+      </div>
 
     </div>
   );

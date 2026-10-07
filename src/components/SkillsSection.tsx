@@ -27,6 +27,7 @@ import {
 
 interface SkillsSectionProps {
   activeRole: TargetRole;
+  language?: 'en' | 'de';
 }
 
 const getCategoryIcon = (iconName: string) => {
@@ -89,7 +90,11 @@ const getCertIcon = (iconName: string) => {
   }
 };
 
-export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
+export const SkillsSection: React.FC<SkillsSectionProps> = ({ 
+  activeRole,
+  language = 'en'
+}) => {
+  const isDe = language === 'de';
   const [certFilter, setCertFilter] = useState<'all' | '2026' | 'business-analysis' | 'ai-ml' | 'it-management' | 'data-eng' | 'languages'>('all');
 
   const filteredCerts = certFilter === 'all' 
@@ -106,13 +111,15 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ activeRole }) => {
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 font-semibold uppercase tracking-wider mb-2">
             <Cpu className="w-4 h-4" />
-            Full-Spectrum Technical Toolkit
+            {isDe ? 'Technologische Kernkompetenzen' : 'Full-Spectrum Technical Toolkit'}
           </div>
           <h2 className="text-2xl sm:text-4xl font-display font-bold text-white tracking-tight">
-            Technical Proficiencies & Systems Mastery
+            {isDe ? 'Verifizierte Fähigkeiten & Technologie-Stack' : 'Technical Proficiencies & Systems Mastery'}
           </h2>
           <p className="text-slate-400 text-sm sm:text-base mt-2">
-            Validated across high-throughput industrial facilities, deep learning sequence research at TU Clausthal, and enterprise IT infrastructure.
+            {isDe 
+              ? 'Erprobt in hochverfügbaren Industrieanlagen, sequentieller Deep-Learning-Forschung an der TU Clausthal und moderner Cloud- & Load-Balancing-Infrastruktur.' 
+              : 'Validated across high-throughput industrial facilities, deep learning sequence research at TU Clausthal, and enterprise IT & load-balancing infrastructure.'}
           </p>
         </div>
 

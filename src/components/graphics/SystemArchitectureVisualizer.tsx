@@ -18,7 +18,7 @@ import {
 interface PipelineNode {
   id: string;
   name: string;
-  category: 'ingest' | 'metrics' | 'security' | 'ai' | 'deploy';
+  category: 'ingest' | 'metrics' | 'security' | 'ai' | 'deploy' | 'load-balancer';
   status: 'active' | 'nominal' | 'secured';
   metric: string;
   detail: string;
@@ -26,7 +26,7 @@ interface PipelineNode {
 
 export const SystemArchitectureVisualizer: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'architecture' | 'telemetry' | 'terminal'>('architecture');
-  const [selectedNode, setSelectedNode] = useState<string>('ai-core');
+  const [selectedNode, setSelectedNode] = useState<string>('load-balancer-ha');
   const [streamCount, setStreamCount] = useState<number>(1420);
   const [pulseActive, setPulseActive] = useState<boolean>(true);
 
@@ -53,6 +53,14 @@ export const SystemArchitectureVisualizer: React.FC = () => {
       status: 'secured',
       metric: 'mTLS Encrypted',
       detail: 'Hardened edge-to-cloud proxy eliminating perimeter exposures'
+    },
+    {
+      id: 'load-balancer-ha',
+      name: 'Dual HAProxy Load Balancers',
+      category: 'load-balancer',
+      status: 'active',
+      metric: '0.4ms Round-Robin (HA)',
+      detail: 'Redundant L4/L7 load balancers with Keepalived VRRP virtual IP failover & active health checks'
     },
     {
       id: 'influx-db',
@@ -219,6 +227,10 @@ export const SystemArchitectureVisualizer: React.FC = () => {
               <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-900/50 border border-slate-800 text-slate-300">
                 <span className="text-slate-400">Teleport Zero-Trust Proxy:</span>
                 <span className="text-cyan-400 font-bold">Encrypted mTLS (Active)</span>
+              </div>
+              <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-900/50 border border-slate-800 text-slate-300">
+                <span className="text-slate-400">HAProxy Load Balancer Cluster:</span>
+                <span className="text-emerald-400 font-bold">VIP 10.0.1.100 · 3 Nodes Active (0.4ms)</span>
               </div>
               <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-900/50 border border-slate-800 text-slate-300">
                 <span className="text-slate-400">Grafana Incident Alerts:</span>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Briefcase, BarChart3, Mail, FileText, Github, Linkedin, Sparkles, Sun, Moon } from 'lucide-react';
+import { Briefcase, BarChart3, Mail, FileText, Github, Linkedin, Sparkles, Sun, Moon, Languages } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
+import { TRANSLATIONS } from '../data/translations';
 
 interface NavbarProps {
   activeView: 'showcase' | 'tracker';
@@ -9,6 +10,8 @@ interface NavbarProps {
   onOpenBrief: () => void;
   theme: 'dark' | 'light';
   onToggleTheme: () => void;
+  language?: 'en' | 'de';
+  onToggleLanguage?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -18,8 +21,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenBrief,
   theme,
   onToggleTheme,
+  language = 'en',
+  onToggleLanguage,
 }) => {
   const [imageError, setImageError] = useState(false);
+  const t = TRANSLATIONS[language].nav;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-[#070a12]/80 backdrop-blur-xl transition-all">
@@ -68,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <Sparkles className="w-3.5 h-3.5" />
-              Portfolio Showcase
+              {t.showcaseView}
             </button>
             <button
               id="view-tracker-tab"
@@ -80,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               }`}
             >
               <BarChart3 className="w-3.5 h-3.5" />
-              Career Pipeline & Analytics
+              {t.trackerView}
               <span className="px-1.5 py-0.2 bg-cyan-950 text-cyan-300 text-[10px] rounded-full border border-cyan-700/50">
                 Live
               </span>
@@ -90,23 +96,30 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Navigation Links for standard view */}
           {activeView === 'showcase' && (
             <nav className="hidden lg:flex items-center gap-4 xl:gap-5 text-xs font-medium text-slate-300">
-              <a href="#about" className="hover:text-emerald-400 transition-colors">About</a>
+              <a href="#video-portfolio" className="hover:text-emerald-300 text-emerald-400 font-bold transition-colors flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                {t.videoPitch}
+                <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-500/40">
+                  {language.toUpperCase()}
+                </span>
+              </a>
+              <a href="#about" className="hover:text-emerald-400 transition-colors">{t.about}</a>
               <a href="#education" className="hover:text-purple-300 text-purple-400/95 font-semibold transition-colors flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-                Education
+                {t.education}
               </a>
-              <a href="#master-thesis" className="hover:text-purple-300 transition-colors">Master's Thesis</a>
-              <a href="#projects" className="hover:text-emerald-400 transition-colors">Projects</a>
-              <a href="#skills" className="hover:text-emerald-400 transition-colors">Skills & Certs</a>
-              <a href="#experience" className="hover:text-emerald-400 text-slate-200 transition-colors font-medium">Work Experience</a>
+              <a href="#master-thesis" className="hover:text-purple-300 transition-colors">{t.masterThesis}</a>
+              <a href="#projects" className="hover:text-emerald-400 transition-colors">{t.projects}</a>
+              <a href="#skills" className="hover:text-emerald-400 transition-colors">{t.skills}</a>
+              <a href="#experience" className="hover:text-emerald-400 text-slate-200 transition-colors font-medium">{t.experience}</a>
               <a href="#observability" className="hover:text-emerald-400 text-emerald-400/90 transition-colors flex items-center gap-1 font-medium">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Observability Studio
+                {t.observability}
               </a>
               <a href="#academic-reference" className="hover:text-purple-400 text-purple-300/90 transition-colors flex items-center gap-1">
-                Academic Reference
+                {t.academicRef}
               </a>
-              <a href="#contact" className="hover:text-emerald-400 transition-colors">Contact</a>
+              <a href="#contact" className="hover:text-emerald-400 transition-colors">{t.contact}</a>
             </nav>
           )}
 
@@ -131,6 +144,25 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Linkedin className="w-4 h-4" />
             </a>
+
+            {/* Global Translate Page Button */}
+            {onToggleLanguage && (
+              <button
+                id="navbar-language-toggle-btn"
+                onClick={onToggleLanguage}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border-2 border-emerald-500/50 hover:border-emerald-400 text-xs font-bold text-white transition-all shadow-md shadow-emerald-500/10 hover:scale-105 active:scale-95"
+                title={language === 'de' ? 'Switch entire page back to English' : 'Gesamte Seite auf Deutsch übersetzen'}
+              >
+                <Languages className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="flex items-center gap-1">
+                  <span>{language === 'de' ? '🇩🇪 DE' : '🇬🇧 EN'}</span>
+                  <span className="text-[10px] text-emerald-400 font-mono">⇄</span>
+                  <span className="text-[11px] text-slate-300 font-semibold hidden md:inline">
+                    {language === 'de' ? 'English' : 'Deutsch'}
+                  </span>
+                </span>
+              </button>
+            )}
 
             {/* Theme Toggle Button */}
             <button
@@ -157,7 +189,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all"
             >
               <FileText className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Recruiter Brief</span>
+              <span>{t.recruiterBrief}</span>
             </button>
 
             {/* Direct Connect / Hire Button */}
@@ -167,20 +199,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-bold shadow-lg shadow-emerald-500/20 transition-all active:scale-95"
             >
               <Mail className="w-3.5 h-3.5" />
-              <span>Get in Touch</span>
+              <span>{t.getInTouch}</span>
             </button>
           </div>
         </div>
 
         {/* Mobile View Toggle */}
-        <div className="flex md:hidden items-center justify-center p-1 my-2 bg-slate-900 border border-slate-800 rounded-xl">
+        <div className="flex md:hidden items-center justify-center p-1 my-2 bg-slate-900 border border-slate-800 rounded-xl gap-2">
           <button
             onClick={() => setActiveView('showcase')}
             className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-lg ${
               activeView === 'showcase' ? 'bg-emerald-500 text-slate-950 font-semibold' : 'text-slate-400'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5" /> Showcase
+            <Sparkles className="w-3.5 h-3.5" /> {t.showcaseView}
           </button>
           <button
             onClick={() => setActiveView('tracker')}
@@ -188,8 +220,16 @@ export const Navbar: React.FC<NavbarProps> = ({
               activeView === 'tracker' ? 'bg-cyan-500 text-slate-950 font-semibold' : 'text-slate-400'
             }`}
           >
-            <BarChart3 className="w-3.5 h-3.5" /> Portfolio Tracker
+            <BarChart3 className="w-3.5 h-3.5" /> {t.trackerView}
           </button>
+          {onToggleLanguage && (
+            <button
+              onClick={onToggleLanguage}
+              className="px-2.5 py-1.5 bg-slate-800 border border-emerald-500/40 rounded-lg text-xs font-bold text-white flex items-center gap-1"
+            >
+              {language === 'de' ? '🇩🇪 DE' : '🇬🇧 EN'}
+            </button>
+          )}
         </div>
       </div>
     </header>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TargetRole, Project } from '../types';
 import { PROJECTS_DATA } from '../data/portfolioData';
+import { TRANSLATIONS } from '../data/translations';
 import { 
   Github, 
   ExternalLink, 
@@ -9,17 +10,24 @@ import {
   Cpu, 
   CheckCircle2, 
   ChevronRight, 
-  Sparkles,
+  Sparkles, 
   TrendingUp,
   SlidersHorizontal
 } from 'lucide-react';
 
 interface ProjectsSectionProps {
   activeRole: TargetRole;
+  language?: 'en' | 'de';
   onSelectProjectForTrack?: (projectId: string) => void;
 }
 
-export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ activeRole }) => {
+export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ 
+  activeRole,
+  language = 'en'
+}) => {
+  const t = TRANSLATIONS[language]?.projects || TRANSLATIONS.en.projects;
+  const isDe = language === 'de';
+
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
 
@@ -43,23 +51,24 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ activeRole }) 
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 font-semibold uppercase tracking-wider mb-2">
               <Layers className="w-4 h-4" />
-              Production Systems & Research
+              {t.tag}
             </div>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-white tracking-tight">
-              Featured Engineering Projects
+              {t.title}
             </h2>
             <p className="text-slate-400 text-sm sm:text-base max-w-2xl mt-1">
-              Spanning deep learning models, industrial edge IoT, automated observability, and cloud backend microservices.
+              {t.desc}
             </p>
           </div>
 
           {/* Category Filter Chips */}
           <div className="flex flex-wrap items-center gap-1.5 p-1 bg-slate-900/90 border border-slate-800 rounded-xl">
             {[
-              { id: 'all', label: 'All Projects' },
-              { id: 'ai-ml', label: 'AI & Deep Learning' },
-              { id: 'observability', label: 'Observability & IoT' },
-              { id: 'data-eng', label: 'Data & Modeling' },
+              { id: 'all', label: isDe ? 'Alle Projekte' : 'All Projects' },
+              { id: 'it-devops', label: isDe ? 'Load Balancer & DevOps' : 'Load Balancers & DevOps' },
+              { id: 'observability', label: isDe ? 'Observability & IoT' : 'Observability & IoT' },
+              { id: 'ai-ml', label: isDe ? 'KI & Deep Learning' : 'AI & Deep Learning' },
+              { id: 'data-eng', label: isDe ? 'Daten & Modellierung' : 'Data & Modeling' },
             ].map((cat) => (
               <button
                 key={cat.id}

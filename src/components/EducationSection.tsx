@@ -17,8 +17,16 @@ import {
   ChevronRight,
   School
 } from 'lucide-react';
+import { TRANSLATIONS } from '../data/translations';
 
-export const EducationSection: React.FC = () => {
+interface EducationSectionProps {
+  language?: 'en' | 'de';
+}
+
+export const EducationSection: React.FC<EducationSectionProps> = ({ language = 'en' }) => {
+  const t = TRANSLATIONS[language]?.education || TRANSLATIONS.en.education;
+  const isDe = language === 'de';
+
   return (
     <section id="education" className="py-20 border-t border-slate-800/80 bg-slate-950/60 relative overflow-hidden">
       {/* Subtle background glow */}
@@ -32,22 +40,22 @@ export const EducationSection: React.FC = () => {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-purple-500/40 text-xs font-mono text-purple-300 font-semibold uppercase tracking-wider mb-3">
               <GraduationCap className="w-3.5 h-3.5 text-purple-400" />
-              Academic Credentials & Degrees
+              {t.tag}
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-white tracking-tight">
-              Education & Research Excellence
+              {t.title}
             </h2>
             <p className="text-slate-300 text-sm sm:text-base mt-3 leading-relaxed">
-              Formal university degrees from Germany and India as listed on Jeevan's verified{' '}
+              {t.desc}{' '}
               <a 
                 href="https://www.linkedin.com/in/jeevan-dutta/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2 inline-flex items-center gap-1 font-medium"
               >
-                LinkedIn profile <ExternalLink className="w-3 h-3" />
+                LinkedIn <ExternalLink className="w-3 h-3" />
               </a>
-              , featuring his published Master's Thesis research in distributed communication networks.
+              .
             </p>
           </div>
 
@@ -59,7 +67,7 @@ export const EducationSection: React.FC = () => {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-xs transition-colors"
             >
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2]" />
-              <span>Verify on LinkedIn</span>
+              <span>{isDe ? 'Auf LinkedIn überprüfen' : 'Verify on LinkedIn'}</span>
             </a>
           </div>
         </div>

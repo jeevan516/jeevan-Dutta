@@ -98,6 +98,23 @@ export const PROJECTS_DATA: Project[] = [
     viewsCount: 1890,
   },
   {
+    id: 'high-availability-load-balancer',
+    title: 'High-Availability Load Balancers & Ingestion Cluster',
+    tagline: 'L4/L7 HAProxy, Keepalived VRRP & Failover Automation',
+    description: 'Designed and implemented an active-redundant load balancer architecture utilizing HAProxy, Keepalived VRRP virtual IP failover, and NGINX reverse proxies for high-frequency industrial telemetry streams. Features health checking (@1500ms HTTP probes), weighted round-robin distribution, and sub-400ms automatic hot standby failover with zero dropped packets.',
+    category: 'it-devops',
+    tags: ['HAProxy', 'Keepalived VRRP', 'NGINX', 'Load Balancing', 'L4/L7 Routing', 'Docker', 'Linux', 'Prometheus'],
+    impact: 'Eliminated single points of failure across industrial ingestion nodes, ensuring 99.99% telemetry availability under 50k+ req/sec bursts.',
+    metrics: [
+      { label: 'Uptime Tier', value: '99.99% Availability' },
+      { label: 'Failover Latency', value: '< 400ms Auto-Switch' },
+      { label: 'Throughput', value: '50k+ Req/sec' },
+    ],
+    featured: true,
+    status: 'Production at WaDaCon (Completed)',
+    viewsCount: 2050,
+  },
+  {
     id: 'pedestrian-trajectory',
     title: 'Trajectory Prediction of Pedestrians',
     tagline: 'Deep Learning & Spatial-Temporal Sequence Modeling',
@@ -229,6 +246,8 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     title: 'DevOps & Infrastructure',
     icon: 'Server',
     skills: [
+      { name: 'HAProxy & NGINX Load Balancing', level: 93, experience: 'L4/L7 HA Clusters & Routing', highlight: true },
+      { name: 'Keepalived & VRRP Virtual IPs', level: 90, experience: 'Automated Failover & VIPs', highlight: true },
       { name: 'Docker & Containerization', level: 92, experience: 'Multi-Service Orchestration', highlight: true },
       { name: 'Teleport & Zero-Trust SSH', level: 88, experience: 'Secure Edge Access', highlight: true },
       { name: 'Linux (Ubuntu/Debian) Admin', level: 94, experience: 'Enterprise Systems' },
