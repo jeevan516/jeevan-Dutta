@@ -8,6 +8,7 @@ interface NavbarProps {
   setActiveView: (view: 'showcase' | 'tracker') => void;
   onOpenContact: () => void;
   onOpenBrief: () => void;
+  onOpenGitHubSync?: () => void;
   theme: 'dark' | 'light';
   onToggleTheme: () => void;
   language?: 'en' | 'de';
@@ -19,6 +20,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   setActiveView,
   onOpenContact,
   onOpenBrief,
+  onOpenGitHubSync,
   theme,
   onToggleTheme,
   language = 'en',
@@ -181,6 +183,19 @@ export const Navbar: React.FC<NavbarProps> = ({
                 {theme === 'dark' ? 'Light' : 'Dark'}
               </span>
             </button>
+
+            {/* GitHub Sync Button */}
+            {onOpenGitHubSync && (
+              <button
+                id="navbar-github-sync-btn"
+                onClick={onOpenGitHubSync}
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-emerald-500/50 transition-all"
+                title="Sync & Push to your GitHub repo"
+              >
+                <Github className="w-3.5 h-3.5 text-emerald-400" />
+                <span>GitHub Sync</span>
+              </button>
+            )}
 
             {/* Recruiter Brief Button */}
             <button

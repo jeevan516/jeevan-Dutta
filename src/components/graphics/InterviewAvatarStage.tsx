@@ -45,6 +45,7 @@ export const InterviewAvatarStage: React.FC<InterviewAvatarStageProps> = ({
   const isDe = language === 'de';
   const [eqLevels, setEqLevels] = useState<number[]>([40, 65, 80, 50, 70]);
   const [isPlayingCalibration, setIsPlayingCalibration] = useState(false);
+  const [avatarFocusMode, setAvatarFocusMode] = useState(false);
 
   // Animate audio EQ bars dynamically when playing
   useEffect(() => {
@@ -163,6 +164,19 @@ export const InterviewAvatarStage: React.FC<InterviewAvatarStageProps> = ({
         {/* Cloned Voice Calibration Indicator & Test Button */}
         <div className="flex items-center gap-2">
           <button
+            onClick={() => setAvatarFocusMode(!avatarFocusMode)}
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-mono transition-all ${
+              avatarFocusMode 
+                ? 'bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20' 
+                : 'bg-slate-900/90 text-slate-300 border border-slate-800 hover:text-white'
+            }`}
+            title="Toggle between Split Stage and Full Avatar Presenter focus"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">{avatarFocusMode ? (isDe ? 'Standardansicht' : 'Split View') : (isDe ? 'Avatar-Fokus' : 'Avatar Spotlight')}</span>
+          </button>
+
+          <button
             onClick={handleTestClonedSample}
             disabled={isPlayingCalibration}
             className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-[11px] font-mono font-semibold transition-all shadow-sm ${
@@ -187,10 +201,10 @@ export const InterviewAvatarStage: React.FC<InterviewAvatarStageProps> = ({
       </div>
 
       {/* Main Studio 2-Column Grid: Left Avatar Studio + Right Teleprompter Answer */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center my-auto py-2">
+      <div className={`grid grid-cols-1 ${avatarFocusMode ? 'lg:grid-cols-1 max-w-xl mx-auto' : 'lg:grid-cols-12'} gap-6 items-center my-auto py-2`}>
         
         {/* Left Column: Moving Explaining Avatar (Procedural 60FPS Presenter) */}
-        <div className="lg:col-span-5 flex flex-col items-center justify-center">
+        <div className={`${avatarFocusMode ? 'w-full' : 'lg:col-span-5'} flex flex-col items-center justify-center`}>
           <MovingExplainingAvatar
             isSpeaking={isPlaying || isPlayingCalibration}
             language={language}
@@ -232,7 +246,7 @@ export const InterviewAvatarStage: React.FC<InterviewAvatarStageProps> = ({
         </div>
 
         {/* Right Column: Question Navigator & Live Teleprompter Script */}
-        <div className="lg:col-span-7 space-y-3">
+        <div className={`${avatarFocusMode ? 'w-full' : 'lg:col-span-7'} space-y-3`}>
           
           {/* Question / Topic Jump Chips Strip */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">

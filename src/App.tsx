@@ -20,6 +20,7 @@ import { InteractiveArchitectureStudio } from './components/graphics/Interactive
 import { PortfolioTracker } from './components/PortfolioTracker';
 import { ContactModal } from './components/ContactModal';
 import { ExecutiveBriefModal } from './components/ExecutiveBriefModal';
+import { GitHubSyncModal } from './components/GitHubSyncModal';
 import { JeevanChatbot } from './components/JeevanChatbot';
 import { Footer } from './components/Footer';
 
@@ -28,6 +29,7 @@ export default function App() {
   const [activeRole, setActiveRole] = useState<TargetRole>('all');
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isBriefOpen, setIsBriefOpen] = useState(false);
+  const [isGitHubSyncOpen, setIsGitHubSyncOpen] = useState(false);
   const [language, setLanguage] = useState<'en' | 'de'>(() => {
     try {
       const stored = localStorage.getItem('jeevan_portfolio_lang');
@@ -121,6 +123,7 @@ export default function App() {
         setActiveView={setActiveView}
         onOpenContact={() => setIsContactOpen(true)}
         onOpenBrief={() => setIsBriefOpen(true)}
+        onOpenGitHubSync={() => setIsGitHubSyncOpen(true)}
         theme={theme}
         onToggleTheme={toggleTheme}
         language={language}
@@ -213,6 +216,12 @@ export default function App() {
       <ExecutiveBriefModal
         isOpen={isBriefOpen}
         onClose={() => setIsBriefOpen(false)}
+      />
+
+      <GitHubSyncModal
+        isOpen={isGitHubSyncOpen}
+        onClose={() => setIsGitHubSyncOpen(false)}
+        language={language}
       />
 
       {/* Floating Quick Translate Button (Bottom-Left) */}

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Check, Copy, Sparkles, Building2, User, FileText, Loader2, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Check, Copy, Sparkles, Building2, User, FileText, Loader2, CheckCircle2, ShieldCheck, AlertCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { PERSONAL_INFO } from '../data/portfolioData';
+import { sanitizeInput, isValidEmail, checkRateLimit } from '../utils/security';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -25,6 +26,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({
   const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [honeypot, setHoneypot] = useState(''); // Anti-bot honeypot trap
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [message, setMessage] = useState(
     'Hi Jeevan, we reviewed your portfolio, especially your work at WaDaCon with Grafana/InfluxDB and your MSc at TU Clausthal. We would like to discuss an opportunity on our team.'
   );
@@ -55,6 +58,35 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
+
+    // 1. Anti-bot honeypot detection: bots auto-fill hidden fields
+    if (honeypot) {
+      console.warn('Bot submission blocked via honeypot.');
+      setSubmitted(true);
+      return;
+    }
+
+    // 2. Client-side input sanitization
+    const cleanName = sanitizeInput(name, 100);
+    const cleanCompany = sanitizeInput(company, 100);
+    const cleanEmail = sanitizeInput(email, 120);
+    const cleanPhone = sanitizeInput(phone, 30);
+    const cleanMessage = sanitizeInput(message, 1500);
+
+    // 3. RFC Email Validation
+    if (!isValidEmail(cleanEmail)) {
+      setErrorMessage('Please provide a valid corporate or professional email address.');
+      return;
+    }
+
+    // 4. Submission Rate Limiting (max 4 inquiries per 5 minutes per client IP/browser)
+    const rateLimit = checkRateLimit({ key: 'contact_form', maxRequests: 4, windowMs: 300000 });
+    if (!rateLimit.allowed) {
+      setErrorMessage(`Rate limit exceeded for security. Please try again in ${rateLimit.retryAfterSeconds} seconds or email directly.`);
+      return;
+    }
+
     setIsSending(true);
 
     let delivered = false;
@@ -68,14 +100,14 @@ export const ContactModal: React.FC<ContactModalProps> = ({
           'Accept': 'application/json',
         },
         body: JSON.stringify({
-          name: name || 'Talent Partner',
-          company: company || 'Recruiter/Company',
-          email: email,
-          phone: phone || 'Not provided',
+          name: cleanName || 'Talent Partner',
+          company: cleanCompany || 'Recruiter/Company',
+          email: cleanEmail,
+          phone: cleanPhone || 'Not provided',
           inquiry_type: template === 'fulltime' ? 'Full-Time Role' : template === 'contract' ? 'Contract / Consulting' : 'General Connect',
-          message: message,
-          _subject: `⚡ Portfolio Inquiry from ${name} (${company || 'Direct Contact'})`,
-          _replyto: email,
+          message: cleanMessage,
+          _subject: `⚡ Portfolio Inquiry from ${cleanName} (${cleanCompany || 'Direct Contact'})`,
+          _replyto: cleanEmail,
         }),
       });
 
@@ -102,11 +134,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
     if (onOpportunitySubmitted) {
       onOpportunitySubmitted({
-        company: company || 'Recruiter Inquiry',
-        contact: name || 'Talent Partner',
-        email: email || 'talent@company.example',
+        company: cleanCompany || 'Recruiter Inquiry',
+        contact: cleanName || 'Talent Partner',
+        email: cleanEmail || 'talent@company.example',
         role: template === 'fulltime' ? 'Full-Time Engineering Role' : template === 'contract' ? 'Contract IoT/AI Project' : 'General Connection',
-        message: message,
+        message: cleanMessage,
       });
     }
   };
@@ -217,6 +249,27 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   Active
                 </span>
+              </div>
+
+              {/* Error message alert */}
+              {errorMessage && (
+                <div className="p-3 rounded-xl bg-rose-950/70 border border-rose-500/50 text-rose-200 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              {/* Anti-Bot Honeypot Hidden Trap Field */}
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="hp_company_field">Do not fill this</label>
+                <input
+                  id="hp_company_field"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
               </div>
 
               {/* Preset Template Chips */}
@@ -336,6 +389,15 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                     </>
                   )}
                 </button>
+              </div>
+
+              {/* Security & Anti-Spam Verification Footnote */}
+              <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-500">
+                <span className="flex items-center gap-1.5 text-emerald-400/80">
+                  <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                  Anti-Spam Shield Active · Rate-Limited
+                </span>
+                <span>TLS Encrypted · Zero Tracker Storage</span>
               </div>
             </form>
           )}

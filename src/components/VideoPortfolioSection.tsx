@@ -36,6 +36,7 @@ import {
 import { PERSONAL_INFO, MASTER_THESIS_DETAILS } from '../data/portfolioData';
 import { WalkingTrajectoryGraphic } from './graphics/WalkingTrajectoryGraphic';
 import { InterviewAvatarStage } from './graphics/InterviewAvatarStage';
+import { MovingExplainingAvatar } from './graphics/MovingExplainingAvatar';
 
 interface VideoPortfolioSectionProps {
   onOpenContact: () => void;
@@ -746,20 +747,14 @@ Generated from Jeevan Dutta's verified portfolio.`;
                   {activeChapter.id === 'intro' && (
                     <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-8 items-center animate-fadeIn">
                       <div className="md:col-span-5 flex flex-col items-center text-center">
-                        <div className="relative">
-                          <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden ring-4 ring-emerald-500/60 shadow-2xl shadow-emerald-500/30 bg-slate-800">
-                            <img
-                              src="./jeevan-dutta.jpg"
-                              alt="Jeevan Dutta"
-                              className="w-full h-full object-cover object-top"
-                            />
-                          </div>
-                          <div className="absolute -bottom-2 -right-2 px-2.5 py-1 rounded-full bg-emerald-500 text-slate-950 font-bold text-[10px] font-mono shadow-lg flex items-center gap-1">
-                            <CheckCircle2 className="w-3 h-3" />
-                            VERIFIED
-                          </div>
+                        <div className="w-full max-w-[280px]">
+                          <MovingExplainingAvatar
+                            isSpeaking={isPlaying}
+                            language={language}
+                            activeTopic={language === 'de' ? 'Leitbild & Profil' : 'Executive Intro'}
+                          />
                         </div>
-                        <h3 className="mt-4 text-xl sm:text-2xl font-bold font-display text-white">{PERSONAL_INFO.name}</h3>
+                        <h3 className="mt-3 text-lg sm:text-xl font-bold font-display text-white">{PERSONAL_INFO.name}</h3>
                         <p className="text-xs text-emerald-400 font-mono mt-0.5">{PERSONAL_INFO.title}</p>
                         <p className="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
                           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
