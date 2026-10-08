@@ -15,17 +15,20 @@ import { MasterThesisSection } from './components/MasterThesisSection';
 import { ProjectsSection } from './components/ProjectsSection';
 import { SkillsSection } from './components/SkillsSection';
 import { ExperienceTimeline } from './components/ExperienceTimeline';
+import { CareerTrajectoryChartSection } from './components/CareerTrajectoryChartSection';
 import { AcademicReferenceSection } from './components/AcademicReferenceSection';
 import { InteractiveArchitectureStudio } from './components/graphics/InteractiveArchitectureStudio';
+import { TechNewsSection } from './components/TechNewsSection';
 import { PortfolioTracker } from './components/PortfolioTracker';
 import { ContactModal } from './components/ContactModal';
 import { ExecutiveBriefModal } from './components/ExecutiveBriefModal';
 import { GitHubSyncModal } from './components/GitHubSyncModal';
+import { ClassicPortfolioView } from './components/ClassicPortfolioView';
 import { JeevanChatbot } from './components/JeevanChatbot';
 import { Footer } from './components/Footer';
 
 export default function App() {
-  const [activeView, setActiveView] = useState<'showcase' | 'tracker'>('showcase');
+  const [activeView, setActiveView] = useState<'showcase' | 'classic' | 'tracker'>('showcase');
   const [activeRole, setActiveRole] = useState<TargetRole>('all');
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isBriefOpen, setIsBriefOpen] = useState(false);
@@ -171,11 +174,17 @@ export default function App() {
             {/* Experience & Academic Trajectory (WaDaCon & TU Clausthal) */}
             <ExperienceTimeline />
 
+            {/* Career Progression Trajectory & Impact Growth Line Chart (Recharts) */}
+            <CareerTrajectoryChartSection language={language} />
+
             {/* Academic Reference & Research Supervised by Prof. Dr. Christian Siemers */}
             <AcademicReferenceSection />
 
             {/* Interactive Industrial Observability & System Architecture Studio */}
             <InteractiveArchitectureStudio language={language} />
+
+            {/* Dedicated Technology News & Google Search Grounding Block */}
+            <TechNewsSection language={language} />
 
             {/* Embedded Portfolio Tracker & Recruiter Hub */}
             <PortfolioTracker
@@ -183,6 +192,13 @@ export default function App() {
               onOpenBrief={() => setIsBriefOpen(true)}
             />
           </>
+        ) : activeView === 'classic' ? (
+          /* Jeevan's Integrated Original / Classic Developer Portfolio */
+          <ClassicPortfolioView
+            onOpenContact={() => setIsContactOpen(true)}
+            onOpenBrief={() => setIsBriefOpen(true)}
+            language={language}
+          />
         ) : (
           /* Dedicated Recruiter & Portfolio Tracker Hub */
           <div className="py-6">

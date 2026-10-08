@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TargetRole } from '../types';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { TRANSLATIONS } from '../data/translations';
@@ -43,6 +43,38 @@ export const Hero: React.FC<HeroProps> = ({
   const [activeGraphic, setActiveGraphic] = useState<'neural' | 'iot' | 'vlsi'>('vlsi');
   const [copiedEmail, setCopiedEmail] = useState(false);
   const t = TRANSLATIONS[language].hero;
+
+  // Typewriter effect cycling through signature roles
+  const roles = [
+    'IT Specialist & AI Engineer',
+    'MSc Informatics (TU Clausthal)',
+    'Industrial IoT Observability Architect',
+    'Full-Stack & Cloud Infrastructure Lead',
+    'Distributed Systems & Load Balancer Specialist'
+  ];
+  const [roleIdx, setRoleIdx] = useState(0);
+  const [typedRole, setTypedRole] = useState('');
+  const [isDeletingRole, setIsDeletingRole] = useState(false);
+
+  useEffect(() => {
+    const cur = roles[roleIdx];
+    const speed = isDeletingRole ? 35 : 75;
+    const timer = setTimeout(() => {
+      if (!isDeletingRole) {
+        setTypedRole(cur.substring(0, typedRole.length + 1));
+        if (typedRole.length + 1 === cur.length) {
+          setTimeout(() => setIsDeletingRole(true), 2200);
+        }
+      } else {
+        setTypedRole(cur.substring(0, typedRole.length - 1));
+        if (typedRole.length === 0) {
+          setIsDeletingRole(false);
+          setRoleIdx((prev) => (prev + 1) % roles.length);
+        }
+      }
+    }, speed);
+    return () => clearTimeout(timer);
+  }, [typedRole, isDeletingRole, roleIdx]);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(PERSONAL_INFO.email);
@@ -104,9 +136,12 @@ export const Hero: React.FC<HeroProps> = ({
                     {t.degreeBadge}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-300 font-medium">
-                  {t.title}
-                </p>
+                <div className="flex items-center gap-1.5 min-h-[22px]">
+                  <p className="text-xs sm:text-sm text-cyan-300 font-mono font-semibold">
+                    {typedRole}
+                  </p>
+                  <span className="w-1.5 h-3.5 bg-emerald-400 animate-pulse inline-block" />
+                </div>
                 <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 font-mono">
                   <span className="text-emerald-400 font-semibold flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />

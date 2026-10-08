@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Briefcase, BarChart3, Mail, FileText, Github, Linkedin, Sparkles, Sun, Moon, Languages } from 'lucide-react';
+import { Briefcase, BarChart3, Mail, FileText, Github, Linkedin, Sparkles, Sun, Moon, Languages, Code2 } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { TRANSLATIONS } from '../data/translations';
 
 interface NavbarProps {
-  activeView: 'showcase' | 'tracker';
-  setActiveView: (view: 'showcase' | 'tracker') => void;
+  activeView: 'showcase' | 'classic' | 'tracker';
+  setActiveView: (view: 'showcase' | 'classic' | 'tracker') => void;
   onOpenContact: () => void;
   onOpenBrief: () => void;
   onOpenGitHubSync?: () => void;
@@ -79,6 +79,19 @@ export const Navbar: React.FC<NavbarProps> = ({
               {t.showcaseView}
             </button>
             <button
+              id="view-classic-tab"
+              onClick={() => setActiveView('classic')}
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                activeView === 'classic'
+                  ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 shadow-md font-bold'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="View Jeevan's Original Developer Portfolio with Matrix Rain & Neural Architecture"
+            >
+              <Code2 className="w-3.5 h-3.5" />
+              <span>{language === 'de' ? 'Klassisches Portfolio' : 'Classic Portfolio'}</span>
+            </button>
+            <button
               id="view-tracker-tab"
               onClick={() => setActiveView('tracker')}
               className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
@@ -114,12 +127,20 @@ export const Navbar: React.FC<NavbarProps> = ({
               <a href="#projects" className="hover:text-emerald-400 transition-colors">{t.projects}</a>
               <a href="#skills" className="hover:text-emerald-400 transition-colors">{t.skills}</a>
               <a href="#experience" className="hover:text-emerald-400 text-slate-200 transition-colors font-medium">{t.experience}</a>
+              <a href="#career-trajectory" className="hover:text-emerald-300 text-emerald-400 font-medium transition-colors flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span>{language === 'de' ? 'Wachstums-Chart' : 'Trajectory'}</span>
+              </a>
               <a href="#observability" className="hover:text-emerald-400 text-emerald-400/90 transition-colors flex items-center gap-1 font-medium">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 {t.observability}
               </a>
               <a href="#academic-reference" className="hover:text-purple-400 text-purple-300/90 transition-colors flex items-center gap-1">
                 {t.academicRef}
+              </a>
+              <a href="#tech-news" className="hover:text-cyan-300 text-cyan-400 font-bold transition-colors flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span>{language === 'de' ? 'Tech-News' : 'Tech News'}</span>
               </a>
               <a href="#contact" className="hover:text-emerald-400 transition-colors">{t.contact}</a>
             </nav>
@@ -228,6 +249,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" /> {t.showcaseView}
+          </button>
+          <button
+            onClick={() => setActiveView('classic')}
+            className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs font-medium rounded-lg ${
+              activeView === 'classic' ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-semibold' : 'text-slate-400'
+            }`}
+          >
+            <Code2 className="w-3.5 h-3.5" /> Classic
           </button>
           <button
             onClick={() => setActiveView('tracker')}
