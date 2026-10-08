@@ -31,6 +31,7 @@ import { PERSONAL_INFO, PROJECTS_DATA, SKILL_CATEGORIES, EXPERIENCES, EDUCATION_
 import { NeuralNetworkCanvas } from './graphics/NeuralNetworkCanvas';
 import { CareerTrajectoryChartSection } from './CareerTrajectoryChartSection';
 import { TechNewsSection } from './TechNewsSection';
+import { VisitorTrackerBlock } from './VisitorTrackerBlock';
 
 interface ClassicPortfolioViewProps {
   onOpenContact: () => void;
@@ -559,6 +560,9 @@ export const ClassicPortfolioView: React.FC<ClassicPortfolioViewProps> = ({
 
       {/* ── DEDICATED TECHNOLOGY NEWS BLOCK (POWERED BY GOOGLE SEARCH GROUNDING) ── */}
       <TechNewsSection language={language} />
+
+      {/* ── REAL-TIME PROFILE OPEN & VISITOR TELEMETRY BLOCK ── */}
+      <VisitorTrackerBlock language={language} />
 
       {/* ── GET IN TOUCH FOOTER CARDS ── */}
       <section className="py-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">

@@ -19,6 +19,7 @@ import { CareerTrajectoryChartSection } from './components/CareerTrajectoryChart
 import { AcademicReferenceSection } from './components/AcademicReferenceSection';
 import { InteractiveArchitectureStudio } from './components/graphics/InteractiveArchitectureStudio';
 import { TechNewsSection } from './components/TechNewsSection';
+import { VisitorTrackerBlock } from './components/VisitorTrackerBlock';
 import { PortfolioTracker } from './components/PortfolioTracker';
 import { ContactModal } from './components/ContactModal';
 import { ExecutiveBriefModal } from './components/ExecutiveBriefModal';
@@ -189,6 +190,9 @@ export default function App() {
 
             {/* Dedicated Technology News & Google Search Grounding Block */}
             <TechNewsSection language={language} />
+
+            {/* Profile Open & Visitor Telemetry Tracker Block */}
+            <VisitorTrackerBlock language={language} />
 
             {/* Embedded Portfolio Tracker & Recruiter Hub */}
             <PortfolioTracker

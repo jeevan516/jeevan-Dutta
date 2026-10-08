@@ -144,6 +144,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                 <span>{language === 'de' ? 'Tech-News' : 'Tech News'}</span>
               </a>
+              <a href="#visitor-tracker" className="hover:text-emerald-300 text-emerald-400 font-bold transition-colors flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>{language === 'de' ? 'Besucher' : 'Visitors'}</span>
+              </a>
               <a href="#contact" className="hover:text-emerald-400 transition-colors">{t.contact}</a>
             </nav>
           )}
