@@ -22,7 +22,8 @@ import {
   Cpu,
   Play,
   Video,
-  Network
+  Network,
+  Download
 } from 'lucide-react';
 
 interface HeroProps {
@@ -30,6 +31,7 @@ interface HeroProps {
   setActiveRole: (role: TargetRole) => void;
   onOpenContact: () => void;
   onOpenBrief: () => void;
+  onOpenResume?: () => void;
   language?: 'en' | 'de';
 }
 
@@ -38,6 +40,7 @@ export const Hero: React.FC<HeroProps> = ({
   setActiveRole,
   onOpenContact,
   onOpenBrief,
+  onOpenResume,
   language = 'en',
 }) => {
   const [activeGraphic, setActiveGraphic] = useState<'neural' | 'iot' | 'vlsi'>('vlsi');
@@ -246,6 +249,18 @@ export const Hero: React.FC<HeroProps> = ({
                 <FileText className="w-4 h-4 text-cyan-400" />
                 <span>{t.briefBtn}</span>
               </button>
+
+              {onOpenResume && (
+                <button
+                  id="hero-resume-btn"
+                  onClick={onOpenResume}
+                  className="flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-emerald-300 hover:text-white border border-emerald-500/40 text-sm font-semibold transition-all hover:border-emerald-400 shadow-lg shadow-emerald-500/10"
+                  title={language === 'de' ? 'Lebenslauf als PDF exportieren' : 'Export and download CV as PDF'}
+                >
+                  <Download className="w-4 h-4 text-emerald-400" />
+                  <span>{language === 'de' ? 'CV (PDF)' : 'Download CV (PDF)'}</span>
+                </button>
+              )}
 
               <button
                 id="hero-copy-email-btn"

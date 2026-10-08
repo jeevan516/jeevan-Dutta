@@ -22,6 +22,7 @@ import { TechNewsSection } from './components/TechNewsSection';
 import { PortfolioTracker } from './components/PortfolioTracker';
 import { ContactModal } from './components/ContactModal';
 import { ExecutiveBriefModal } from './components/ExecutiveBriefModal';
+import { ResumeExportModal } from './components/ResumeExportModal';
 import { GitHubSyncModal } from './components/GitHubSyncModal';
 import { ClassicPortfolioView } from './components/ClassicPortfolioView';
 import { JeevanChatbot } from './components/JeevanChatbot';
@@ -32,6 +33,7 @@ export default function App() {
   const [activeRole, setActiveRole] = useState<TargetRole>('all');
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isBriefOpen, setIsBriefOpen] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isGitHubSyncOpen, setIsGitHubSyncOpen] = useState(false);
   const [language, setLanguage] = useState<'en' | 'de'>(() => {
     try {
@@ -126,6 +128,7 @@ export default function App() {
         setActiveView={setActiveView}
         onOpenContact={() => setIsContactOpen(true)}
         onOpenBrief={() => setIsBriefOpen(true)}
+        onOpenResume={() => setIsResumeOpen(true)}
         onOpenGitHubSync={() => setIsGitHubSyncOpen(true)}
         theme={theme}
         onToggleTheme={toggleTheme}
@@ -143,6 +146,7 @@ export default function App() {
               setActiveRole={setActiveRole}
               onOpenContact={() => setIsContactOpen(true)}
               onOpenBrief={() => setIsBriefOpen(true)}
+              onOpenResume={() => setIsResumeOpen(true)}
               language={language}
             />
 
@@ -197,6 +201,7 @@ export default function App() {
           <ClassicPortfolioView
             onOpenContact={() => setIsContactOpen(true)}
             onOpenBrief={() => setIsBriefOpen(true)}
+            onOpenResume={() => setIsResumeOpen(true)}
             language={language}
           />
         ) : (
@@ -232,6 +237,12 @@ export default function App() {
       <ExecutiveBriefModal
         isOpen={isBriefOpen}
         onClose={() => setIsBriefOpen(false)}
+      />
+
+      <ResumeExportModal
+        isOpen={isResumeOpen}
+        onClose={() => setIsResumeOpen(false)}
+        language={language}
       />
 
       <GitHubSyncModal

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Briefcase, BarChart3, Mail, FileText, Github, Linkedin, Sparkles, Sun, Moon, Languages, Code2 } from 'lucide-react';
+import { Briefcase, BarChart3, Mail, FileText, Github, Linkedin, Sparkles, Sun, Moon, Languages, Code2, Download } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { TRANSLATIONS } from '../data/translations';
 
@@ -8,6 +8,7 @@ interface NavbarProps {
   setActiveView: (view: 'showcase' | 'classic' | 'tracker') => void;
   onOpenContact: () => void;
   onOpenBrief: () => void;
+  onOpenResume?: () => void;
   onOpenGitHubSync?: () => void;
   theme: 'dark' | 'light';
   onToggleTheme: () => void;
@@ -20,6 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   setActiveView,
   onOpenContact,
   onOpenBrief,
+  onOpenResume,
   onOpenGitHubSync,
   theme,
   onToggleTheme,
@@ -215,6 +217,19 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <Github className="w-3.5 h-3.5 text-emerald-400" />
                 <span>GitHub Sync</span>
+              </button>
+            )}
+
+            {/* Export & Download CV (PDF) */}
+            {onOpenResume && (
+              <button
+                id="navbar-resume-btn"
+                onClick={onOpenResume}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-white border border-emerald-500/40 hover:border-emerald-400 font-mono text-xs font-bold transition-all shadow-md shadow-emerald-500/10"
+                title={language === 'de' ? 'Lebenslauf als PDF herunterladen' : 'Export & Download Professional CV as PDF'}
+              >
+                <Download className="w-3.5 h-3.5 text-emerald-400" />
+                <span>{language === 'de' ? 'CV (PDF)' : 'Resume (PDF)'}</span>
               </button>
             )}
 

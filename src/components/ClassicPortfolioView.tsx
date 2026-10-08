@@ -35,12 +35,14 @@ import { TechNewsSection } from './TechNewsSection';
 interface ClassicPortfolioViewProps {
   onOpenContact: () => void;
   onOpenBrief: () => void;
+  onOpenResume?: () => void;
   language?: 'en' | 'de';
 }
 
 export const ClassicPortfolioView: React.FC<ClassicPortfolioViewProps> = ({
   onOpenContact,
   onOpenBrief,
+  onOpenResume,
   language = 'en',
 }) => {
   const isDe = language === 'de';
@@ -208,6 +210,17 @@ export const ClassicPortfolioView: React.FC<ClassicPortfolioViewProps> = ({
                   <Linkedin className="w-4 h-4" />
                   <span>LinkedIn Profile</span>
                 </a>
+
+                {onOpenResume && (
+                  <button
+                    onClick={onOpenResume}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-emerald-300 hover:text-white border border-emerald-500/50 hover:border-emerald-400 text-xs sm:text-sm font-semibold transition-all shadow-md shadow-emerald-500/10"
+                    title={isDe ? 'Lebenslauf als PDF herunterladen' : 'Download CV as PDF'}
+                  >
+                    <Download className="w-4 h-4 text-emerald-400" />
+                    <span>{isDe ? 'CV (PDF) Export' : 'Download CV (PDF)'}</span>
+                  </button>
+                )}
 
                 <button
                   onClick={onOpenContact}
