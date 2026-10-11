@@ -343,9 +343,9 @@ export const VisitorTrackerBlock: React.FC<VisitorTrackerBlockProps> = ({ langua
             </div>
 
             <div className="space-y-3">
-              {recentLogs.map((log) => (
+              {recentLogs.map((log, idx) => (
                 <div 
-                  key={log.id}
+                  key={`${log.id}-${idx}`}
                   className="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 hover:border-slate-700 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono"
                 >
                   <div className="space-y-0.5">
