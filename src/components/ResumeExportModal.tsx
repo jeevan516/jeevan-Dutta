@@ -25,6 +25,8 @@ import {
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import confetti from 'canvas-confetti';
+import { playSuccessChime } from '../services/soundFx';
 import { PERSONAL_INFO, EXPERIENCES, EDUCATION_DATA, CERTIFICATIONS, SKILL_CATEGORIES, MASTER_THESIS_DETAILS } from '../data/portfolioData';
 
 interface ResumeExportModalProps {
@@ -95,6 +97,13 @@ export const ResumeExportModal: React.FC<ResumeExportModalProps> = ({
         : `Jeevan_Dutta_Executive_CV_2026.pdf`;
       
       pdf.save(fileName);
+      playSuccessChime();
+      confetti({
+        particleCount: 65,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#10b981', '#06b6d4', '#8b5cf6', '#f59e0b']
+      });
     } catch (err) {
       console.error('Failed to generate PDF:', err);
       // Fallback to browser native print

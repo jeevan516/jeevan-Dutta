@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Briefcase, BarChart3, Mail, FileText, Github, Linkedin, Sparkles, Sun, Moon, Languages, Code2, Download } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Briefcase, BarChart3, Mail, FileText, Github, Linkedin, Sparkles, Sun, Moon, Languages, Code2, Download, Volume2, VolumeX } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { TRANSLATIONS } from '../data/translations';
+import { isSoundFxEnabled, setSoundFxEnabled, playTactileClick } from '../services/soundFx';
 
 interface NavbarProps {
   activeView: 'showcase' | 'classic' | 'tracker';
@@ -29,7 +31,20 @@ export const Navbar: React.FC<NavbarProps> = ({
   onToggleLanguage,
 }) => {
   const [imageError, setImageError] = useState(false);
+  const [soundOn, setSoundOn] = useState(() => isSoundFxEnabled());
   const t = TRANSLATIONS[language].nav;
+
+  const handleToggleSound = () => {
+    const next = !soundOn;
+    setSoundOn(next);
+    setSoundFxEnabled(next);
+    if (next) playTactileClick();
+  };
+
+  const handleSelectView = (view: 'showcase' | 'classic' | 'tracker') => {
+    playTactileClick();
+    setActiveView(view);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-[#070a12]/80 backdrop-blur-xl transition-all">
@@ -66,45 +81,68 @@ export const Navbar: React.FC<NavbarProps> = ({
             </a>
           </div>
 
-          {/* Mode Switcher: Showcase vs Portfolio Tracker */}
+          {/* Mode Switcher: Showcase vs Classic vs Portfolio Tracker */}
           <div className="hidden md:flex items-center p-1 bg-slate-900/90 border border-slate-800 rounded-xl shadow-inner">
             <button
               id="view-showcase-tab"
-              onClick={() => setActiveView('showcase')}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              onClick={() => handleSelectView('showcase')}
+              className={`relative flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors z-10 ${
                 activeView === 'showcase'
-                  ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 shadow-md'
+                  ? 'text-slate-950 font-bold'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
+              {activeView === 'showcase' && (
+                <motion.div
+                  layoutId="activeNavbarModePill"
+                  className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg -z-10 shadow-md shadow-emerald-500/20"
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                />
+              )}
               <Sparkles className="w-3.5 h-3.5" />
-              {t.showcaseView}
+              <span>{t.showcaseView}</span>
             </button>
+
             <button
               id="view-classic-tab"
-              onClick={() => setActiveView('classic')}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              onClick={() => handleSelectView('classic')}
+              className={`relative flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors z-10 ${
                 activeView === 'classic'
-                  ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 shadow-md font-bold'
+                  ? 'text-slate-950 font-bold'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
               title="View Jeevan's Original Developer Portfolio with Matrix Rain & Neural Architecture"
             >
+              {activeView === 'classic' && (
+                <motion.div
+                  layoutId="activeNavbarModePill"
+                  className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg -z-10 shadow-md shadow-emerald-500/20"
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                />
+              )}
               <Code2 className="w-3.5 h-3.5" />
               <span>{language === 'de' ? 'Klassisches Portfolio' : 'Classic Portfolio'}</span>
             </button>
+
             <button
               id="view-tracker-tab"
-              onClick={() => setActiveView('tracker')}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              onClick={() => handleSelectView('tracker')}
+              className={`relative flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors z-10 ${
                 activeView === 'tracker'
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-950 shadow-md'
+                  ? 'text-slate-950 font-bold'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
+              {activeView === 'tracker' && (
+                <motion.div
+                  layoutId="activeNavbarModePill"
+                  className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg -z-10 shadow-md shadow-cyan-500/20"
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                />
+              )}
               <BarChart3 className="w-3.5 h-3.5" />
-              {t.trackerView}
-              <span className="px-1.5 py-0.2 bg-cyan-950 text-cyan-300 text-[10px] rounded-full border border-cyan-700/50">
+              <span>{t.trackerView}</span>
+              <span className="px-1.5 py-0.2 bg-cyan-950/80 text-cyan-300 text-[10px] rounded-full border border-cyan-700/50">
                 Live
               </span>
             </button>
@@ -208,6 +246,24 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
               <span className="hidden xl:inline text-[11px] font-mono font-medium">
                 {theme === 'dark' ? 'Light' : 'Dark'}
+              </span>
+            </button>
+
+            {/* Sound FX Audio Haptic Feedback Toggle */}
+            <button
+              id="sound-fx-toggle-btn"
+              onClick={handleToggleSound}
+              className={`p-2 rounded-xl border transition-all flex items-center gap-1.5 ${
+                soundOn
+                  ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/40 shadow-sm shadow-emerald-500/20'
+                  : 'text-slate-400 bg-slate-800/80 hover:bg-slate-700 border-slate-700'
+              }`}
+              title={soundOn ? 'Tactile Sound Effects: ON (Click to Mute)' : 'Tactile Sound Effects: OFF (Click to Enable)'}
+              aria-label="Toggle Sound Effects"
+            >
+              {soundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+              <span className="hidden xl:inline text-[10px] font-mono font-medium">
+                {soundOn ? 'SFX ON' : 'MUTE'}
               </span>
             </button>
 

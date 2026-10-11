@@ -24,6 +24,7 @@ import { PortfolioTracker } from './components/PortfolioTracker';
 import { ContactModal } from './components/ContactModal';
 import { ExecutiveBriefModal } from './components/ExecutiveBriefModal';
 import { ResumeExportModal } from './components/ResumeExportModal';
+import { FloatingNavDock } from './components/FloatingNavDock';
 import { GitHubSyncModal } from './components/GitHubSyncModal';
 import { ClassicPortfolioView } from './components/ClassicPortfolioView';
 import { JeevanChatbot } from './components/JeevanChatbot';
@@ -252,6 +253,13 @@ export default function App() {
       <GitHubSyncModal
         isOpen={isGitHubSyncOpen}
         onClose={() => setIsGitHubSyncOpen(false)}
+        language={language}
+      />
+
+      {/* Floating Interactive Navigation Dock & Progress Bar */}
+      <FloatingNavDock
+        onOpenResume={() => setIsResumeOpen(true)}
+        onOpenContact={() => setIsContactOpen(true)}
         language={language}
       />
 

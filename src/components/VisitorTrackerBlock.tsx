@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Users, 
   Eye, 
@@ -18,6 +19,7 @@ import {
   Building
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { playSuccessChime, playTactileClick } from '../services/soundFx';
 
 interface VisitorTrackerBlockProps {
   language?: 'en' | 'de';
@@ -135,6 +137,7 @@ export const VisitorTrackerBlock: React.FC<VisitorTrackerBlockProps> = ({ langua
     setTotalVisits(prev => prev + 1);
     setTodayVisits(prev => prev + 1);
     setLastPingTime('Just now');
+    playSuccessChime();
 
     try {
       localStorage.setItem('jeevan_total_profile_visits', (totalVisits + 1).toString());
@@ -225,7 +228,14 @@ export const VisitorTrackerBlock: React.FC<VisitorTrackerBlockProps> = ({ langua
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           
           {/* Card 1: Total People Visited */}
-          <div className="p-6 rounded-3xl bg-slate-900/90 border-2 border-emerald-500/40 shadow-2xl shadow-emerald-500/10 space-y-2 relative overflow-hidden group">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+            whileHover={{ y: -6, scale: 1.01 }}
+            className="p-6 rounded-3xl bg-slate-900/90 border-2 border-emerald-500/40 shadow-2xl shadow-emerald-500/10 space-y-2 relative overflow-hidden group cursor-default transition-colors hover:border-emerald-400"
+          >
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
               <Users className="w-16 h-16 text-emerald-400" />
             </div>
@@ -239,10 +249,17 @@ export const VisitorTrackerBlock: React.FC<VisitorTrackerBlockProps> = ({ langua
             <p className="text-[11px] text-slate-300 font-mono">
               {isDe ? 'Aufrufe seit Veröffentlichung' : 'Recorded visits across all sessions'}
             </p>
-          </div>
+          </motion.div>
 
           {/* Card 2: Today's Profile Opens */}
-          <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl space-y-2 relative overflow-hidden group">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.12 }}
+            whileHover={{ y: -6, scale: 1.01 }}
+            className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl space-y-2 relative overflow-hidden group cursor-default transition-colors hover:border-cyan-500/40"
+          >
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
               <TrendingUp className="w-16 h-16 text-cyan-400" />
             </div>
@@ -256,10 +273,17 @@ export const VisitorTrackerBlock: React.FC<VisitorTrackerBlockProps> = ({ langua
             <p className="text-[11px] text-slate-300 font-mono">
               {isDe ? 'Echtzeit-Inkrementierung aktiv' : 'Live incremental opens today'}
             </p>
-          </div>
+          </motion.div>
 
           {/* Card 3: Unique Recruiters & Tech Leads */}
-          <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl space-y-2 relative overflow-hidden group">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.19 }}
+            whileHover={{ y: -6, scale: 1.01 }}
+            className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl space-y-2 relative overflow-hidden group cursor-default transition-colors hover:border-purple-500/40"
+          >
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
               <Building className="w-16 h-16 text-purple-400" />
             </div>
@@ -273,10 +297,17 @@ export const VisitorTrackerBlock: React.FC<VisitorTrackerBlockProps> = ({ langua
             <p className="text-[11px] text-slate-300 font-mono">
               {isDe ? 'Verifizierte IP- und Session-Cluster' : 'Unique company & direct IP sessions'}
             </p>
-          </div>
+          </motion.div>
 
           {/* Card 4: Immediate Readiness Confirmation */}
-          <div className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl space-y-2 relative overflow-hidden group">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.26 }}
+            whileHover={{ y: -6, scale: 1.01 }}
+            className="p-6 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-xl space-y-2 relative overflow-hidden group cursor-default transition-colors hover:border-emerald-500/40"
+          >
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
               <Zap className="w-16 h-16 text-emerald-400" />
             </div>
@@ -290,7 +321,7 @@ export const VisitorTrackerBlock: React.FC<VisitorTrackerBlockProps> = ({ langua
             <p className="text-[11px] text-slate-300 font-mono">
               {isDe ? 'Sofort einsatzbereit in DE' : 'Available for immediate start across Germany'}
             </p>
-          </div>
+          </motion.div>
 
         </div>
 

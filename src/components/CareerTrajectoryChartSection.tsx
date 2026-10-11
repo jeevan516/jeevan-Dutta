@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { 
   ResponsiveContainer, 
   ComposedChart, 
@@ -228,41 +229,37 @@ export const CareerTrajectoryChartSection: React.FC<CareerTrajectoryChartSection
 
           {/* Metric Selector Tabs */}
           <div className="flex items-center gap-1.5 p-1 bg-slate-900 border border-slate-800 rounded-2xl shadow-inner">
-            <button
-              onClick={() => setActiveMetric('impact')}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all ${
-                activeMetric === 'impact'
-                  ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 shadow-md shadow-emerald-500/20'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Zap className="w-3.5 h-3.5" />
-              <span>{isDe ? 'Architektur-Impact' : 'Impact Index'}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveMetric('cycle')}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all ${
-                activeMetric === 'cycle'
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-950 shadow-md shadow-cyan-500/20'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Activity className="w-3.5 h-3.5" />
-              <span>{isDe ? 'MTTR & Zyklen (-60%)' : 'MTTR / Speedup (%)'}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveMetric('throughput')}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-all ${
-                activeMetric === 'throughput'
-                  ? 'bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 shadow-md shadow-teal-500/20'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Cpu className="w-3.5 h-3.5" />
-              <span>{isDe ? 'Durchsatz (k Req/s)' : 'Throughput (k/s)'}</span>
-            </button>
+            {[
+              { id: 'impact', label: isDe ? 'Architektur-Impact' : 'Impact Index', icon: Zap, bg: 'from-emerald-500 to-cyan-500' },
+              { id: 'cycle', label: isDe ? 'MTTR & Zyklen (-60%)' : 'MTTR / Speedup (%)', icon: Activity, bg: 'from-cyan-500 to-blue-500' },
+              { id: 'throughput', label: isDe ? 'Durchsatz (k Req/s)' : 'Throughput (k/s)', icon: Cpu, bg: 'from-teal-500 to-emerald-500' },
+            ].map((metric) => {
+              const Icon = metric.icon;
+              const isActive = activeMetric === metric.id;
+              return (
+                <motion.button
+                  key={metric.id}
+                  onClick={() => setActiveMetric(metric.id as any)}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`relative flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold transition-colors z-10 ${
+                    isActive
+                      ? 'text-slate-950 font-bold'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTrajectoryMetricPill"
+                      className={`absolute inset-0 bg-gradient-to-r ${metric.bg} rounded-xl -z-10 shadow-md shadow-emerald-500/20`}
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{metric.label}</span>
+                </motion.button>
+              );
+            })}
           </div>
         </div>
 
