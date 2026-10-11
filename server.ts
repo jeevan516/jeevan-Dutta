@@ -266,6 +266,52 @@ Do not wrap in markdown quotes if possible, or wrap only in standard JSON.`;
     });
   });
 
+  /**
+   * POST /api/github/push
+   * Pushes the staged commit to GitHub repository to trigger GitHub Pages workflow
+   */
+  app.post('/api/github/push', async (req: Request, res: Response) => {
+    const token = typeof req.body?.token === 'string' ? req.body.token.trim() : '';
+    if (!token) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'GitHub Personal Access Token is required to authenticate push.' 
+      });
+    }
+
+    // Token security format check
+    if (!/^[a-zA-Z0-9_.-]+$/.test(token)) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Invalid token format. Tokens only contain alphanumeric characters and underscores.' 
+      });
+    }
+
+    try {
+      const { exec } = await import('child_process');
+      const util = await import('util');
+      const execAsync = util.promisify(exec);
+
+      const targetRepo = `https://${token}@github.com/jeevan516/jeevan-Dutta.git`;
+      const { stdout, stderr } = await execAsync(`git push ${targetRepo} main`, {
+        cwd: __dirname
+      });
+
+      return res.json({
+        success: true,
+        message: 'Successfully pushed all changes to https://github.com/jeevan516/jeevan-Dutta main branch! The GitHub Pages workflow is now deploying.',
+        stdout,
+        stderr
+      });
+    } catch (err: any) {
+      const safeErr = err?.message?.split(token).join('***') || 'Push execution failed';
+      return res.status(500).json({
+        success: false,
+        error: safeErr
+      });
+    }
+  });
+
   // Mount Vite in development or static in production
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.resolve(__dirname, 'dist')));
