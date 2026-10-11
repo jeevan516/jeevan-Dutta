@@ -293,15 +293,27 @@ Do not wrap in markdown quotes if possible, or wrap only in standard JSON.`;
       const execAsync = util.promisify(exec);
 
       const targetRepo = `https://${token}@github.com/jeevan516/jeevan-Dutta.git`;
-      const { stdout, stderr } = await execAsync(`git push ${targetRepo} main`, {
+      
+      // Push main source branch
+      const resMain = await execAsync(`git push ${targetRepo} main`, {
         cwd: __dirname
       });
 
+      // Push gh-pages static deployment branch
+      let resGhPages = { stdout: '', stderr: '' };
+      try {
+        resGhPages = await execAsync(`git push ${targetRepo} gh-pages`, {
+          cwd: __dirname
+        });
+      } catch (ghPagesErr: any) {
+        console.warn('gh-pages push notice:', ghPagesErr?.message);
+      }
+
       return res.json({
         success: true,
-        message: 'Successfully pushed all changes to https://github.com/jeevan516/jeevan-Dutta main branch! The GitHub Pages workflow is now deploying.',
-        stdout,
-        stderr
+        message: 'Successfully pushed all changes to both main and gh-pages branches on https://github.com/jeevan516/jeevan-Dutta! Your website at https://jeevan516.github.io/jeevan-Dutta/# is deployed and updated.',
+        stdout: `${resMain.stdout} ${resGhPages.stdout}`,
+        stderr: `${resMain.stderr} ${resGhPages.stderr}`
       });
     } catch (err: any) {
       const safeErr = err?.message?.split(token).join('***') || 'Push execution failed';

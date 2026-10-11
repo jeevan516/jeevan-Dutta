@@ -105,8 +105,8 @@ export const GitHubSyncModal: React.FC<GitHubSyncModalProps> = ({
     }
   };
 
-  const commandOneLiner = `git push https://<YOUR_GITHUB_TOKEN>@github.com/jeevan516/jeevan-Dutta.git main`;
-  const commandGitRemote = `git remote set-url origin https://<YOUR_GITHUB_TOKEN>@github.com/jeevan516/jeevan-Dutta.git\ngit push origin main`;
+  const commandOneLiner = `git push https://<YOUR_GITHUB_TOKEN>@github.com/jeevan516/jeevan-Dutta.git main gh-pages`;
+  const commandGitRemote = `git remote set-url origin https://<YOUR_GITHUB_TOKEN>@github.com/jeevan516/jeevan-Dutta.git\ngit push origin main\ngit push origin gh-pages`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
