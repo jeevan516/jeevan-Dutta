@@ -54,7 +54,7 @@ export const JeevanChatbot: React.FC<JeevanChatbotProps> = ({ onOpenContact, onO
 
 I am a results-oriented IT professional with a dual foundation in Data Analysis and IT Engineering. With an MSc in Informatics from TU Clausthal (Master's thesis on 4-Node Synchronous Networks under Prof. Dr. Christian Siemers) and over a decade of hands-on experience, I specialize in transforming complex technical processes into streamlined, impactful outcomes.
 
-🎯 Current Status: Available for New Role (Immediate Availability · Hamburg & across Germany)
+🎯 Current Status: Currently Attending AI & Machine Learning Bootcamp · Available Immediately & Ready for Work (Hamburg & across Germany)
 
 I can provide verified technical details on:
 • Comprehensive Work History: Production engineering at WaDaCon GmbH, Cogent Networks (6+ yrs), RadicalX (Google Gemini Flights & Vertex AI), Netidentity (Power BI), and Avast Technologies.
@@ -322,7 +322,7 @@ Feel free to ask about his attached Master's Thesis under Prof. Dr. Christian Si
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs font-bold text-white font-display">This is Jeevan's Bot</span>
                   <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-semibold bg-emerald-950/90 text-emerald-300 border border-emerald-700/60">
-                    Available for New Role
+                    AI & ML Bootcamp · Ready for Work
                   </span>
                 </div>
                 <p className="text-[10px] text-slate-400 font-mono">Click to restore chat window</p>

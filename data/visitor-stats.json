@@ -1,79 +1,9 @@
 {
-  "totalVisits": 1493,
+  "totalVisits": 1483,
   "uniqueVisitors": 986,
-  "todayVisits": 53,
-  "lastUpdated": "2026-10-11T10:06:22.236Z",
+  "todayVisits": 43,
+  "lastUpdated": "2026-10-08T08:43:42.178Z",
   "recentVisits": [
-    {
-      "id": "v-1791713182236",
-      "timestamp": "Just now",
-      "source": "https://aistudio.google.com/",
-      "location": "Germany / International",
-      "roleInterest": "Full Profile Telemetry"
-    },
-    {
-      "id": "v-1791713182231",
-      "timestamp": "Just now",
-      "source": "https://aistudio.google.com/",
-      "location": "Germany / International",
-      "roleInterest": "Full Profile Telemetry"
-    },
-    {
-      "id": "v-1791710896882",
-      "timestamp": "Just now",
-      "source": "https://aistudio.google.com/",
-      "location": "Germany / International",
-      "roleInterest": "Full Profile Telemetry"
-    },
-    {
-      "id": "v-1791710896857",
-      "timestamp": "Just now",
-      "source": "https://aistudio.google.com/",
-      "location": "Germany / International",
-      "roleInterest": "Full Profile Telemetry"
-    },
-    {
-      "id": "v-1791708753860",
-      "timestamp": "Just now",
-      "source": "https://aistudio.google.com/",
-      "location": "Germany / International",
-      "roleInterest": "Full Profile Telemetry"
-    },
-    {
-      "id": "v-1791708753858",
-      "timestamp": "Just now",
-      "source": "https://aistudio.google.com/",
-      "location": "Germany / International",
-      "roleInterest": "Full Profile Telemetry"
-    },
-    {
-      "id": "v-1791708061323",
-      "timestamp": "Just now",
-      "source": "https://aistudio.google.com/",
-      "location": "Germany / International",
-      "roleInterest": "Full Profile Telemetry"
-    },
-    {
-      "id": "v-1791708061319",
-      "timestamp": "Just now",
-      "source": "https://aistudio.google.com/",
-      "location": "Germany / International",
-      "roleInterest": "Full Profile Telemetry"
-    },
-    {
-      "id": "v-1791707335445",
-      "timestamp": "Just now",
-      "source": "https://aistudio.google.com/",
-      "location": "Germany / International",
-      "roleInterest": "Full Profile Telemetry"
-    },
-    {
-      "id": "v-1791707335441",
-      "timestamp": "Just now",
-      "source": "https://aistudio.google.com/",
-      "location": "Germany / International",
-      "roleInterest": "Full Profile Telemetry"
-    },
     {
       "id": "v-1791449022178",
       "timestamp": "Just now",

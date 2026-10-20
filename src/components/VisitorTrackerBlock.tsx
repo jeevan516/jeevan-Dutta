@@ -315,11 +315,11 @@ export const VisitorTrackerBlock: React.FC<VisitorTrackerBlockProps> = ({ langua
               <CheckCircle2 className="w-3.5 h-3.5" />
               {isDe ? 'Verfügbarkeit für Rollen' : 'Candidate Availability'}
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold font-display text-emerald-300 tracking-tight pt-1">
-              Immediate
+            <div className="text-xl sm:text-2xl font-extrabold font-display text-emerald-300 tracking-tight pt-1">
+              Ready for Work
             </div>
             <p className="text-[11px] text-slate-300 font-mono">
-              {isDe ? 'Sofort einsatzbereit in DE' : 'Available for immediate start across Germany'}
+              {isDe ? 'Im KI- & ML-Bootcamp · Sofort verfügbar' : 'In AI & ML Bootcamp · Available immediately'}
             </p>
           </motion.div>
 
