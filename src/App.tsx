@@ -8,7 +8,6 @@ import { TargetRole } from './types';
 import { Languages } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { VideoPortfolioSection } from './components/VideoPortfolioSection';
 import { AboutSection } from './components/AboutSection';
 import { EducationSection } from './components/EducationSection';
 import { MasterThesisSection } from './components/MasterThesisSection';
@@ -150,14 +149,6 @@ export default function App() {
               onOpenBrief={() => setIsBriefOpen(true)}
               onOpenResume={() => setIsResumeOpen(true)}
               language={language}
-            />
-
-            {/* High-Impact Bilingual Video Portfolio & Executive Pitch (English & German) */}
-            <VideoPortfolioSection
-              onOpenContact={() => setIsContactOpen(true)}
-              onOpenBrief={() => setIsBriefOpen(true)}
-              language={language}
-              onToggleLanguage={toggleLanguage}
             />
 
             {/* About & Dual Foundation Section */}

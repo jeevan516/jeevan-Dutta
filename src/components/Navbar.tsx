@@ -151,13 +151,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Navigation Links for standard view */}
           {activeView === 'showcase' && (
             <nav className="hidden lg:flex items-center gap-4 xl:gap-5 text-xs font-medium text-slate-300">
-              <a href="#video-portfolio" className="hover:text-emerald-300 text-emerald-400 font-bold transition-colors flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                {t.videoPitch}
-                <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-500/40">
-                  {language.toUpperCase()}
-                </span>
-              </a>
               <a href="#about" className="hover:text-emerald-400 transition-colors">{t.about}</a>
               <a href="#education" className="hover:text-purple-300 text-purple-400/95 font-semibold transition-colors flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />

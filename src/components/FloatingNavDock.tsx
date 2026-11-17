@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { 
   Sparkles, 
-  Video, 
   Briefcase, 
   TrendingUp, 
   Layers, 
@@ -42,7 +41,7 @@ export const FloatingNavDock: React.FC<FloatingNavDockProps> = ({
       setIsVisible(latest > 300);
 
       // Section tracking
-      const sections = ['video-portfolio', 'experience', 'career-trajectory', 'projects', 'observability', 'tech-news', 'visitor-tracker'];
+      const sections = ['experience', 'career-trajectory', 'projects', 'observability', 'tech-news', 'visitor-tracker'];
       for (const sectionId of sections) {
         const el = document.getElementById(sectionId);
         if (el) {
@@ -70,7 +69,6 @@ export const FloatingNavDock: React.FC<FloatingNavDockProps> = ({
   };
 
   const navItems = [
-    { id: 'video-portfolio', label: isDe ? 'Video Pitch' : 'Video Pitch', icon: Video },
     { id: 'experience', label: isDe ? 'Erfahrung' : 'Experience', icon: Briefcase },
     { id: 'career-trajectory', label: isDe ? 'Wachstum' : 'Trajectory', icon: TrendingUp },
     { id: 'projects', label: isDe ? 'Projekte' : 'Projects', icon: Layers },
