@@ -24,8 +24,6 @@ import {
   ShieldAlert,
   Sparkles,
   Cpu,
-  Play,
-  Video,
   Network,
   Download
 } from 'lucide-react';
@@ -233,21 +231,6 @@ export const Hero: React.FC<HeroProps> = ({
 
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <motion.a
-                href="#video-portfolio"
-                id="hero-watch-video-btn"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 text-slate-950 font-extrabold text-sm shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all group"
-              >
-                <div className="w-5 h-5 rounded-full bg-slate-950/20 flex items-center justify-center">
-                  <Play className="w-3 h-3 fill-slate-950 ml-0.5 text-slate-950 group-hover:scale-110 transition-transform" />
-                </div>
-                <span>{t.watchVideo}</span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-950/20 text-slate-950 font-bold border border-slate-950/30">
-                  {language.toUpperCase()}
-                </span>
-              </motion.a>
 
               <motion.a
                 href="#observability"
